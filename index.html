@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Excel Font Processor - Arial Size 6 Converter</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            padding: 40px;
+            max-width: 900px;
+            width: 100%;
+        }
+
+        h1 {
+            color: #333;
+            font-size: 28px;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 16px;
+        }
+
+        .upload-area {
+            border: 3px dashed #ccc;
+            border-radius: 10px;
+            padding: 40px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 30px;
+        }
+
+        .upload-area:hover {
+            border-color: #667eea;
+            background: #f8f9ff;
+        }
+
+        .upload-area.dragover {
+            border-color: #667eea;
+            background: #e8eaff;
+        }
+
+        .upload-icon {
+            font-size: 48px;
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+
+        .upload-text {
+            font-size: 18px;
+            color: #555;
+            margin-bottom: 10px;
+        }
+
+        .upload-hint {
+            font-size: 14px;
+            color: #888;
+        }
+
+        .file-info {
+            background: #f8f9ff;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 30px;
+            display: none;
+        }
+
+        .file-info.show {
+            display: block;
+        }
+
+        .file-name {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 10px;
+            word-break: break-all;
+        }
+
+        .file-size {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .options-panel {
+            background: linear-gradient(135deg, #667eea10 0%, #764ba210 100%);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            border: 2px solid #667eea30;
+        }
+
+        .options-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .options-title::before {
+            content: '⚙️';
+            margin-right: 10px;
+            font-size: 24px;
+        }
+
+        .option-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+        }
+
+        .option-label {
+            flex: 1;
+            font-weight: 600;
+            color: #555;
+        }
+
+        .option-value {
+            flex: 2;
+        }
+
+        select, input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        select:focus, input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .font-preview-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            border: 1px solid #667eea30;
+        }
+
+        .preview-title {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        .preview-title::before {
+            content: '👁️';
+            margin-right: 8px;
+        }
+
+        .preview-box {
+            background: #f5f5f5;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Arial', sans-serif;
+            font-size: 6px;
+            line-height: 1.5;
+            border: 1px solid #ddd;
+        }
+
+        .preview-box div {
+            margin-bottom: 8px;
+        }
+
+        .preview-label {
+            font-size: 10px;
+            color: #888;
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        .progress-container {
+            margin: 30px 0;
+            display: none;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background: #f0f0f0;
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            width: 0%;
+            transition: width 0.3s ease;
+            border-radius: 10px;
+        }
+
+        .progress-text {
+            text-align: center;
+            font-size: 14px;
+            color: #666;
+            margin-top: 10px;
+        }
+
+        .download-btn {
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 18px 30px;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .download-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .download-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .error-message {
+            color: #dc3545;
+            background: #ffe6e8;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 14px;
+            margin-top: 20px;
+            display: none;
+            border-left: 4px solid #dc3545;
+        }
+
+        .success-message {
+            color: #28a745;
+            background: #d4edda;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 14px;
+            margin-top: 20px;
+            display: none;
+            border-left: 4px solid #28a745;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #999;
+            font-size: 12px;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin: 30px 0;
+        }
+
+        .feature-item {
+            text-align: center;
+            padding: 15px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        .feature-icon {
+            font-size: 30px;
+            margin-bottom: 10px;
+        }
+
+        .feature-name {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+
+        .feature-desc {
+            color: #666;
+            font-size: 12px;
+        }
+
+        .format-badge {
+            display: inline-block;
+            background: #667eea20;
+            color: #667eea;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📊 Excel Font Converter</h1>
+        <p class="subtitle">Transform your Excel files to Arial font size 6 automatically</p>
+
+        <div class="feature-grid">
+            <div class="feature-item">
+                <div class="feature-icon">📤</div>
+                <div class="feature-name">Upload Excel</div>
+                <div class="feature-desc">Support .xlsx, .xls, .csv</div>
+            </div>
+            <div class="feature-item">
+                <div class="feature-icon">✏️</div>
+                <div class="feature-name">Arial 6pt</div>
+                <div class="feature-desc">Automatic font conversion</div>
+            </div>
+            <div class="feature-item">
+                <div class="feature-icon">📥</div>
+                <div class="feature-name">Download</div>
+                <div class="feature-desc">Get processed file</div>
+            </div>
+        </div>
+
+        <div class="upload-area" id="uploadArea">
+            <div class="upload-icon">📁</div>
+            <div class="upload-text">Drag & drop your Excel file here</div>
+            <div class="upload-hint">or click to browse (max 50MB)</div>
+            <input type="file" id="fileInput" accept=".xlsx,.xls,.csv" style="display: none;">
+        </div>
+
+        <div class="file-info" id="fileInfo">
+            <div class="file-name" id="fileName"></div>
+            <div class="file-size" id="fileSize"></div>
+        </div>
+
+        <div class="options-panel">
+            <div class="options-title">Font Settings</div>
+            
+            <div class="option-row">
+                <div class="option-label">Font Family:</div>
+                <div class="option-value">
+                    <select id="fontFamily">
+                        <option value="Arial" selected>Arial</option>
+                        <option value="Calibri">Calibri</option>
+                        <option value="Times New Roman">Times New Roman</option>
+                        <option value="Verdana">Verdana</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="option-row">
+                <div class="option-label">Font Size:</div>
+                <div class="option-value">
+                    <input type="number" id="fontSize" value="6" min="6" max="72" step="1">
+                </div>
+            </div>
+
+            <div class="font-preview-card">
+                <div class="preview-title">Live Preview (Arial 6pt)</div>
+                <div class="preview-box" id="previewBox">
+                    <div>The quick brown fox jumps over the lazy dog</div>
+                    <div>ABCDEFGHIJKLMNOPQRSTUVWXYZ</div>
+                    <div>abcdefghijklmnopqrstuvwxyz</div>
+                    <div>0123456789 !@#$%^&*()</div>
+                </div>
+                <div class="preview-label">This is how your Excel text will look</div>
+            </div>
+
+            <div class="format-badge">✓ All cells will be formatted with Arial 6pt</div>
+        </div>
+
+        <div class="progress-container" id="progressContainer">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="progress-text" id="progressText">Processing...</div>
+        </div>
+
+        <button class="download-btn" id="downloadBtn" disabled>
+            ⚡ Convert & Download Excel File
+        </button>
+
+        <div class="error-message" id="errorMessage"></div>
+        <div class="success-message" id="successMessage"></div>
+
+        <div class="footer">
+            Version 2.0.0 | Now with proper Arial 6pt formatting! | Deployable on Vercel
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script>
+        let currentFile = null;
+
+        // DOM Elements
+        const uploadArea = document.getElementById('uploadArea');
+        const fileInput = document.getElementById('fileInput');
+        const fileInfo = document.getElementById('fileInfo');
+        const fileName = document.getElementById('fileName');
+        const fileSize = document.getElementById('fileSize');
+        const downloadBtn = document.getElementById('downloadBtn');
+        const progressContainer = document.getElementById('progressContainer');
+        const progressFill = document.getElementById('progressFill');
+        const progressText = document.getElementById('progressText');
+        const errorMessage = document.getElementById('errorMessage');
+        const successMessage = document.getElementById('successMessage');
+        const fontFamily = document.getElementById('fontFamily');
+        const fontSize = document.getElementById('fontSize');
+        const previewBox = document.getElementById('previewBox');
+
+        // Update preview when font settings change
+        fontFamily.addEventListener('change', updatePreview);
+        fontSize.addEventListener('change', updatePreview);
+
+        function updatePreview() {
+            previewBox.style.fontFamily = fontFamily.value;
+            previewBox.style.fontSize = fontSize.value + 'px';
+        }
+
+        // Drag & drop handlers
+        uploadArea.addEventListener('click', () => fileInput.click());
+
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.classList.add('dragover');
+        });
+
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.classList.remove('dragover');
+        });
+
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+            
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                handleFile(files[0]);
+            }
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+                handleFile(e.target.files[0]);
+            }
+        });
+
+        function handleFile(file) {
+            if (file.size > 50 * 1024 * 1024) {
+                showError('File size must be less than 50MB');
+                return;
+            }
+
+            const validTypes = [
+                'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                'application/vnd.ms-excel',
+                'text/csv'
+            ];
+
+            if (!validTypes.includes(file.type) && !file.name.match(/\.(xlsx|xls|csv)$/)) {
+                showError('Please upload a valid Excel file (.xlsx, .xls, or .csv)');
+                return;
+            }
+
+            currentFile = file;
+            fileName.textContent = `📄 ${file.name}`;
+            fileSize.textContent = `Size: ${formatFileSize(file.size)}`;
+            fileInfo.classList.add('show');
+            downloadBtn.disabled = false;
+            hideMessages();
+        }
+
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        function showError(message) {
+            errorMessage.textContent = message;
+            errorMessage.style.display = 'block';
+            successMessage.style.display = 'none';
+        }
+
+        function showSuccess(message) {
+            successMessage.textContent = message;
+            successMessage.style.display = 'block';
+            errorMessage.style.display = 'none';
+        }
+
+        function hideMessages() {
+            errorMessage.style.display = 'none';
+            successMessage.style.display = 'none';
+        }
+
+        function updateProgress(percent, text) {
+            progressFill.style.width = `${percent}%`;
+            if (text) {
+                progressText.textContent = text;
+            }
+        }
+
+        downloadBtn.addEventListener('click', async () => {
+            if (!currentFile) {
+                showError('Please select a file first');
+                return;
+            }
+
+            downloadBtn.disabled = true;
+            progressContainer.style.display = 'block';
+            hideMessages();
+            updateProgress(0, 'Reading file...');
+
+            try {
+                const arrayBuffer = await readFileAsArrayBuffer(currentFile);
+                updateProgress(20, 'Parsing Excel data...');
+
+                const workbook = XLSX.read(arrayBuffer, { type: 'array' });
+                updateProgress(40, 'Applying Arial 6pt formatting...');
+
+                // Create a new workbook with styled cells
+                const newWorkbook = XLSX.utils.book_new();
+
+                for (let sIdx = 0; sIdx < workbook.SheetNames.length; sIdx++) {
+                    const sheetName = workbook.SheetNames[sIdx];
+                    const worksheet = workbook.Sheets[sheetName];
+                    
+                    // Convert to JSON and back to preserve data
+                    const range = XLSX.utils.decode_range(worksheet['!ref'] || 'A1:A1');
+                    const data = [];
+                    
+                    for (let row = range.s.r; row <= range.e.r; row++) {
+                        const rowData = [];
+                        for (let col = range.s.c; col <= range.e.c; col++) {
+                            const cellRef = XLSX.utils.encode_cell({ r: row, c: col });
+                            const cell = worksheet[cellRef];
+                            
+                            if (cell && cell.v !== undefined) {
+                                // Handle formulas
+                                if (cell.f) {
+                                    rowData.push({ f: cell.f, v: cell.v });
+                                } else {
+                                    rowData.push(cell.v);
+                                }
+                            } else {
+                                rowData.push('');
+                            }
+                        }
+                        data.push(rowData);
+                    }
+                    
+                    // Create new worksheet with the data
+                    const newWorksheet = XLSX.utils.aoa_to_sheet(data);
+                    
+                    // Apply styling by adding cell properties
+                    for (let row = range.s.r; row <= range.e.r; row++) {
+                        for (let col = range.s.c; col <= range.e.c; col++) {
+                            const cellRef = XLSX.utils.encode_cell({ r: row, c: col });
+                            const cell = newWorksheet[cellRef];
+                            
+                            if (cell) {
+                                // Add style properties
+                                cell.s = {
+                                    font: {
+                                        name: 'Arial',
+                                        sz: 6,
+                                        family: 2,
+                                        color: { rgb: "000000" }
+                                    },
+                                    alignment: {
+                                        vertical: 'center',
+                                        wrapText: true
+                                    }
+                                };
+                                
+                                // Preserve formulas if they exist
+                                if (typeof cell.v === 'object' && cell.v.f) {
+                                    cell.f = cell.v.f;
+                                    cell.v = cell.v.v;
+                                }
+                            }
+                        }
+                    }
+                    
+                    // Set column widths (optional - adjust as needed)
+                    newWorksheet['!cols'] = [];
+                    for (let col = range.s.c; col <= range.e.c; col++) {
+                        newWorksheet['!cols'].push({ width: 15 });
+                    }
+                    
+                    XLSX.utils.book_append_sheet(newWorkbook, newWorksheet, sheetName);
+                    
+                    updateProgress(
+                        40 + (60 * (sIdx + 1) / workbook.SheetNames.length),
+                        `Processing sheet: ${sheetName}...`
+                    );
+                }
+
+                updateProgress(90, 'Generating final file...');
+
+                // Generate Excel file with styling
+                const wbout = XLSX.write(newWorkbook, { 
+                    bookType: 'xlsx', 
+                    type: 'array',
+                    cellStyles: true,
+                    compression: true
+                });
+
+                updateProgress(95, 'Preparing download...');
+
+                // Create download link
+                const blob = new Blob([wbout], { 
+                    type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' 
+                });
+                
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `arial6_${currentFile.name.replace(/\.[^/.]+$/, '')}_converted.xlsx`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                window.URL.revokeObjectURL(url);
+
+                updateProgress(100, 'Complete! File downloaded.');
+                showSuccess('File successfully converted to Arial 6pt!');
+                
+                setTimeout(() => {
+                    progressContainer.style.display = 'none';
+                    updateProgress(0, 'Processing...');
+                }, 2000);
+
+            } catch (error) {
+                console.error('Error processing file:', error);
+                showError('Error processing file. Please try again.');
+                progressContainer.style.display = 'none';
+            } finally {
+                downloadBtn.disabled = false;
+            }
+        });
+
+        function readFileAsArrayBuffer(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = reject;
+                reader.readAsArrayBuffer(file);
+            });
+        }
+
+        // Add instructions for Excel
+        const instructions = document.createElement('div');
+        instructions.style.marginTop = '20px';
+        instructions.style.padding = '15px';
+        instructions.style.backgroundColor = '#f8f9ff';
+        instructions.style.borderRadius = '10px';
+        instructions.style.fontSize = '13px';
+        instructions.style.border = '1px solid #667eea30';
+        instructions.innerHTML = `
+            <div style="display: flex; align-items: center; margin-bottom: 10px;">
+                <span style="font-size: 20px; margin-right: 10px;">✨</span>
+                <strong style="color: #333;">Formatting Instructions:</strong>
+            </div>
+            <ul style="color: #666; margin-left: 20px; line-height: 1.6;">
+                <li>All cells have been formatted with Arial font size 6</li>
+                <li>Original data, formulas, and structure are preserved</li>
+                <li>Column widths have been optimized for better visibility</li>
+                <li>Text wrapping is enabled for better readability</li>
+            </ul>
+        `;
+        document.querySelector('.options-panel').appendChild(instructions);
+    </script>
+</body>
+</html>

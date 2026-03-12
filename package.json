@@ -1,0 +1,17 @@
+{
+  "name": "excel-api",
+  "version": "1.0.0",
+  "description": "Backend API for Excel processing with ExcelJS",
+  "main": "index.js",
+"scripts": {
+  "dev": "node server.js",
+  "start": "node server.js"
+},
+  "dependencies": {
+    "exceljs": "^4.4.0",
+    "multer": "^1.4.5-lts.1"
+  },
+  "engines": {
+    "node": ">=18.x"
+  }
+}
