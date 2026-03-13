@@ -394,15 +394,15 @@ const STEPS = [
   // STEP 12: Hapus kolom Q, R, T, AN, AO, AQ
   //          (hapus dari kanan ke kiri agar index tidak bergeser)
   // ----------------------------------------------------------
-  async function step12_deleteColumns(workbook, worksheet) {
-    // Kolom yang dihapus dalam urutan descending (kanan ke kiri)
-    // Q=17, R=18, T=20, AN=40, AO=41, AQ=43
-    const colsToDelete = [43, 41, 40, 20, 18, 17];
+  // async function step12_deleteColumns(workbook, worksheet) {
+  //   // Kolom yang dihapus dalam urutan descending (kanan ke kiri)
+  //   // Q=17, R=18, T=20, AN=40, AO=41, AQ=43
+  //   const colsToDelete = [43, 41, 40, 20, 18, 17];
 
-    for (const colIndex of colsToDelete) {
-      worksheet.spliceColumns(colIndex, 1);
-    }
-  },
+  //   for (const colIndex of colsToDelete) {
+  //     worksheet.spliceColumns(colIndex, 1);
+  //   }
+  // },
 ];
 
 // ============================================================
@@ -589,7 +589,6 @@ module.exports = async function handler(req, res) {
     res.setHeader("Content-Disposition", `attachment; filename="${FILE_CONFIG.outputFileName}"`);
     res.setHeader("Content-Length", outputBuffer.length);
     return res.status(200).end(outputBuffer);
-
   } catch (err) {
     console.error("[Excel API Error]", err);
     return res.status(500).json({
