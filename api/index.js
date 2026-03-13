@@ -230,7 +230,7 @@ const STEPS = [
       }
     });
 
-    //console.log(`[Step 7] Last row with data in col B: ${lastRow}`);
+    console.log(`[Step 7] Last row with data in col B: ${lastRow}`);
 
     // Helper: outside border pada range
     function outsideBorder(rowStart, rowEnd, colStart, colEnd) {
@@ -304,12 +304,103 @@ const STEPS = [
     });
 
     const XX = lastRow;
-    //console.log(`[Step 8] XX = ${XX}`);
+    console.log(`[Step 8] XX = ${XX}`);
 
     const targetRows = [XX + 1, XX + 5, XX + 6];
     for (const r of targetRows) {
       const cell = worksheet.getRow(r).getCell(20); // T = col 20
       cell.value = null;
+    }
+  },
+
+  // ----------------------------------------------------------
+  // STEP 9: Center dan middle align A1:AU3
+  // ----------------------------------------------------------
+  async function step9_alignHeader(workbook, worksheet) {
+    for (let r = 1; r <= 3; r++) {
+      const row = worksheet.getRow(r);
+      for (let c = 1; c <= 47; c++) { // A=1 sampai AU=47
+        const cell = row.getCell(c);
+        cell.alignment = {
+          ...(cell.alignment || {}),
+          horizontal: "center",
+          vertical: "middle",
+        };
+      }
+    }
+  },
+
+  // ----------------------------------------------------------
+  // STEP 10: Cari exact match "Satuan Ukur" dan "Biaya Satuan Ukur"
+  //          lalu ubah teks antar kata menjadi newline (alt+enter)
+  //          dan set wrapText: true
+  // ----------------------------------------------------------
+  async function step10_newlineWords(workbook, worksheet) {
+    const targets = {
+      "Satuan Ukur":        "Satuan\nUkur",
+      "Biaya Satuan Ukur":  "Biaya\nSatuan\nUkur",
+    };
+
+    worksheet.eachRow({ includeEmpty: false }, (row) => {
+      row.eachCell({ includeEmpty: false }, (cell) => {
+        const val = cell.value;
+        if (typeof val !== "string") return;
+
+        const trimmed = val.trim();
+        if (targets[trimmed] !== undefined) {
+          cell.value = targets[trimmed];
+          cell.alignment = {
+            ...(cell.alignment || {}),
+            wrapText: true,
+          };
+        }
+      });
+    });
+  },
+
+  // ----------------------------------------------------------
+  // STEP 11: Pindahkan teks AQ(XX+1), AQ(XX+5), AQ(XX+6)
+  //          ke AP(XX+1), AP(XX+5), AP(XX+6)
+  //          XX = baris terbawah berisi data di kolom B
+  // ----------------------------------------------------------
+  async function step11_moveCells(workbook, worksheet) {
+    // Cari XX
+    let lastRow = 4;
+    worksheet.eachRow({ includeEmpty: false }, (row) => {
+      const cellB = row.getCell(2);
+      if (row.number >= 4 && cellB.value !== null && cellB.value !== undefined && cellB.value !== "") {
+        if (row.number > lastRow) lastRow = row.number;
+      }
+    });
+
+    const XX = lastRow;
+    console.log(`[Step 11] XX = ${XX}`);
+
+    const targetRows = [XX + 1, XX + 5, XX + 6];
+    for (const r of targetRows) {
+      const srcCell = worksheet.getRow(r).getCell(43); // AQ = col 43
+      const dstCell = worksheet.getRow(r).getCell(42); // AP = col 42
+
+      // Pindahkan value dan style
+      dstCell.value = srcCell.value;
+      dstCell.style = JSON.parse(JSON.stringify(srcCell.style || {}));
+
+      // Kosongkan cell sumber
+      srcCell.value = null;
+    }
+  },
+
+  // ----------------------------------------------------------
+  // STEP 12: Hapus kolom Q, R, T, AN, AO, AQ
+  //          (hapus dari kanan ke kiri agar index tidak bergeser)
+  // ----------------------------------------------------------
+  async function step12_deleteColumns(workbook, worksheet) {
+    // Kolom yang dihapus dalam urutan descending (kanan ke kiri)
+    // Q=17, R=18, T=20, AN=40, AO=41, AQ=43
+    const colsToDelete = [43, 41, 40, 20, 18, 17];
+
+    for (const colIndex of colsToDelete) {
+      worksheet.spliceColumns(colIndex, 1);
     }
   },
 ];
