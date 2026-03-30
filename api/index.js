@@ -391,18 +391,25 @@ const STEPS = [
   },
 
   // ----------------------------------------------------------
-  // STEP 12: Hapus kolom Q, R, T, AN, AO, AQ
-  //          (hapus dari kanan ke kiri agar index tidak bergeser)
+  // STEP 12: Bold seluruh baris jika kolom A match:
+  //          - Code 433: format XXXX.XXX.XXX (4 digit . 3 char . 3 char)
+  //          - 3 digit angka (contoh: 051)
   // ----------------------------------------------------------
-  // async function step12_deleteColumns(workbook, worksheet) {
-  //   // Kolom yang dihapus dalam urutan descending (kanan ke kiri)
-  //   // Q=17, R=18, T=20, AN=40, AO=41, AQ=43
-  //   const colsToDelete = [43, 41, 40, 20, 18, 17];
+  async function step12_boldRows(workbook, worksheet) {
+    const patternCode433 = /^\d{4}\.[A-Za-z0-9]{3}\.[A-Za-z0-9]{3}$/;
+    const pattern3Digit  = /^\d{3}$/;
 
-  //   for (const colIndex of colsToDelete) {
-  //     worksheet.spliceColumns(colIndex, 1);
-  //   }
-  // },
+    worksheet.eachRow({ includeEmpty: false }, (row) => {
+      const cellA = row.getCell(1);
+      const value = cellA.value ? String(cellA.value).trim() : "";
+
+      if (patternCode433.test(value) || pattern3Digit.test(value)) {
+        row.eachCell({ includeEmpty: true }, (cell) => {
+          cell.font = { ...(cell.font || {}), bold: true };
+        });
+      }
+    });
+  },
 ];
 
 // ============================================================
@@ -589,6 +596,7 @@ module.exports = async function handler(req, res) {
     res.setHeader("Content-Disposition", `attachment; filename="${FILE_CONFIG.outputFileName}"`);
     res.setHeader("Content-Length", outputBuffer.length);
     return res.status(200).end(outputBuffer);
+
   } catch (err) {
     console.error("[Excel API Error]", err);
     return res.status(500).json({
