@@ -38,7 +38,7 @@ const FILE_CONFIG = {
 // ============================================================
 const STEPS = [
   // ----------------------------------------------------------
-  // STEP 1: Ubah semua font MENJADI Arial ukuran 6
+  // STEP 1: Ubah semua font menjadi Arial ukuran 6
   // ----------------------------------------------------------
   async function step1_setFontArialSize6(workbook, worksheet) {
     worksheet.eachRow({ includeEmpty: false }, (row) => {
@@ -55,7 +55,7 @@ const STEPS = [
 
   // ----------------------------------------------------------
   // STEP 2: Cari kolom A dengan format XXX.XX.XX, ubah warna
-  //         font seluruh baris MENJADI #0c0c5e
+  //         font seluruh baris menjadi #0c0c5e
   // ----------------------------------------------------------
   async function step2_colorCodeRows(workbook, worksheet) {
     const pattern = /^\d{3}\.\d{2}\.[A-Za-z0-9]{2}$/;
@@ -77,7 +77,7 @@ const STEPS = [
 
   // ----------------------------------------------------------
   // STEP 3: Cari kolom A dengan 4 digit angka (contoh: 2175),
-  //         ubah warna font seluruh baris MENJADI #0000FF
+  //         ubah warna font seluruh baris menjadi #0000FF
   // ----------------------------------------------------------
   async function step3_colorFourDigitRows(workbook, worksheet) {
     const pattern = /^\d{4}$/;
@@ -100,7 +100,7 @@ const STEPS = [
   // ----------------------------------------------------------
   // STEP 4: Cari kolom A dengan format XXXX.XXX (4 digit angka,
   //         titik, 3 karakter huruf/angka), ubah warna font
-  //         seluruh baris MENJADI #B10301
+  //         seluruh baris menjadi #B10301
   // ----------------------------------------------------------
   async function step4_colorCode43Rows(workbook, worksheet) {
     const pattern = /^\d{4}\.[A-Za-z0-9]{3}$/;
@@ -332,7 +332,7 @@ const STEPS = [
 
   // ----------------------------------------------------------
   // STEP 10: Cari exact match "Satuan Ukur" dan "Biaya Satuan Ukur"
-  //          lalu ubah teks antar kata MENJADI newline (alt+enter)
+  //          lalu ubah teks antar kata menjadi newline (alt+enter)
   //          dan set wrapText: true
   // ----------------------------------------------------------
   async function step10_newlineWords(workbook, worksheet) {
@@ -414,7 +414,7 @@ const STEPS = [
 
   // ----------------------------------------------------------
   // STEP 13: Pada setiap baris Y dimana kolom A match Code 433
-  //          (XXXX.XXX.XXX), isi AW(Y) = "524 SEMULA"
+  //          (XXXX.XXX.XXX), isi AW(Y) = "524 Semula"
   //          dan AW(Y+1) = formula SUM kolom U dari baris-baris
   //          dimana kolom A adalah 6 digit angka diawali "524"
   // ----------------------------------------------------------
@@ -435,7 +435,7 @@ const STEPS = [
       const nextY    = code433Rows[i + 1] ?? Infinity;
       const colAW    = 49; // AW = col 49
       const cellY = worksheet.getRow(Y).getCell(colAW);
-      cellY.value = "524 SEMULA";
+      cellY.value = "524 Semula";
       const rows524InRange = rows524.filter(r => r > Y && r < nextY);
       const formulaStr = rows524InRange.length > 0
         ? rows524InRange.map(r => `U${r}`).join("+")
@@ -447,7 +447,7 @@ const STEPS = [
 
   // ----------------------------------------------------------
   // STEP 14: Pada setiap baris Y dimana kolom A match Code 43
-  //          (XXXX.XXX), isi AW(Y) = "524 SEMULA"
+  //          (XXXX.XXX), isi AW(Y) = "524 Semula"
   //          dan AW(Y+1) = formula penjumlahan AW(Y+1) dari
   //          Step 13 yang berada antara Y dan Code 43 berikutnya
   // ----------------------------------------------------------
@@ -467,7 +467,7 @@ const STEPS = [
       const Y     = code43Rows[i];
       const nextY = code43Rows[i + 1] ?? Infinity;
       const colAW = 49; // AW = col 49
-      worksheet.getRow(Y).getCell(colAW).value = "524 SEMULA";
+      worksheet.getRow(Y).getCell(colAW).value = "524 Semula";
       const step13Cells = code433Rows
         .filter(r => r > Y && r < nextY)
         .map(r => `AW${r + 1}`);
@@ -480,7 +480,7 @@ const STEPS = [
 
   // ----------------------------------------------------------
   // STEP 15: Pada setiap baris Y dimana kolom A match Code 322
-  //          (XXX.XX.XX, contoh: 026.04.DN), isi AW(Y) = "524 SEMULA"
+  //          (XXX.XX.XX, contoh: 026.04.DN), isi AW(Y) = "524 Semula"
   //          dan AW(Y+1) = formula penjumlahan AW(Y+1) dari Step 14
   //          yang berada antara Y dan Code 322 berikutnya
   // ----------------------------------------------------------
@@ -500,7 +500,7 @@ const STEPS = [
       const Y     = code322Rows[i];
       const nextY = code322Rows[i + 1] ?? Infinity;
       const colAW = 49; // AW = col 49
-      worksheet.getRow(Y).getCell(colAW).value = "524 SEMULA";
+      worksheet.getRow(Y).getCell(colAW).value = "524 Semula";
       const step14Cells = code43Rows
         .filter(r => r > Y && r < nextY)
         .map(r => `AW${r + 1}`);
@@ -513,7 +513,7 @@ const STEPS = [
 
   // ----------------------------------------------------------
   // STEP 16: Pada setiap baris Y dimana kolom A match Code 433
-  //          (XXXX.XXX.XXX), isi AX(Y) = "524 MENJADI"
+  //          (XXXX.XXX.XXX), isi AX(Y) = "524 Menjadi"
   //          dan AX(Y+1) = formula SUM kolom AR dari baris-baris
   //          dimana kolom X adalah 6 digit diawali "524",
   //          hanya antara Y dan Code 433 berikutnya
@@ -535,7 +535,7 @@ const STEPS = [
       const Y     = code433Rows[i];
       const nextY = code433Rows[i + 1] ?? Infinity;
       const colAX = 50; // AX = col 50
-      worksheet.getRow(Y).getCell(colAX).value = "524 MENJADI";
+      worksheet.getRow(Y).getCell(colAX).value = "524 Menjadi";
       const rows524InRange = rows524.filter(r => r > Y && r < nextY);
       const formulaStr = rows524InRange.length > 0
         ? rows524InRange.map(r => `AR${r}`).join("+")
@@ -547,7 +547,7 @@ const STEPS = [
   // ----------------------------------------------------------
   // STEP 17: Sama seperti Step 14, tapi:
   //          - Kolom AW → AX (col 50)
-  //          - "524 SEMULA" → "524 MENJADI"
+  //          - "524 Semula" → "524 Menjadi"
   //          - AW(Y+1) Step 13 → AX(Y+1) Step 16
   // ----------------------------------------------------------
   async function step17_fillAXCode43(workbook, worksheet) {
@@ -566,7 +566,7 @@ const STEPS = [
       const Y     = code43Rows[i];
       const nextY = code43Rows[i + 1] ?? Infinity;
       const colAX = 50; // AX = col 50
-      worksheet.getRow(Y).getCell(colAX).value = "524 MENJADI";
+      worksheet.getRow(Y).getCell(colAX).value = "524 Menjadi";
       const step16Cells = code433Rows
         .filter(r => r > Y && r < nextY)
         .map(r => `AX${r + 1}`);
@@ -580,7 +580,7 @@ const STEPS = [
   // ----------------------------------------------------------
   // STEP 18: Sama seperti Step 15, tapi:
   //          - Kolom AW → AX (col 50)
-  //          - "524 SEMULA" → "524 MENJADI"
+  //          - "524 Semula" → "524 Menjadi"
   //          - AW(Y+1) Step 14 → AX(Y+1) Step 17
   // ----------------------------------------------------------
   async function step18_fillAXCode322(workbook, worksheet) {
@@ -599,7 +599,7 @@ const STEPS = [
       const Y     = code322Rows[i];
       const nextY = code322Rows[i + 1] ?? Infinity;
       const colAX = 50; // AX = col 50
-      worksheet.getRow(Y).getCell(colAX).value = "524 MENJADI";
+      worksheet.getRow(Y).getCell(colAX).value = "524 Menjadi";
       const step17Cells = code43Rows
         .filter(r => r > Y && r < nextY)
         .map(r => `AX${r + 1}`);
@@ -644,6 +644,134 @@ const STEPS = [
       } else {
         cell.value = { formula: `=AX${r}-AW${r}` };
       }
+    }
+  },
+
+  // ----------------------------------------------------------
+  // STEP 20: Pada setiap baris Y dimana kolom A match Code 433
+  //          (XXXX.XXX.XXX), isi AZ(Y) = "RM SEMULA"
+  //          dan AZ(Y+1) = formula SUM kolom U dari baris-baris
+  //          dimana kolom W berisi exact "RM",
+  //          hanya antara Y dan Code 433 berikutnya
+  // ----------------------------------------------------------
+  async function step20_fillAZrmSemula(workbook, worksheet) {
+    const patternCode433 = /^\d{4}\.[A-Za-z0-9]{3}\.[A-Za-z0-9]{3}$/;
+
+    const code433Rows = [];
+    const rowsRM      = [];
+
+    worksheet.eachRow({ includeEmpty: false }, (row) => {
+      const valA = row.getCell(1).value  ? String(row.getCell(1).value).trim()  : "";
+      const valW = row.getCell(23).value ? String(row.getCell(23).value).trim() : "";
+      if (patternCode433.test(valA)) code433Rows.push(row.number);
+      if (valW === "RM")             rowsRM.push(row.number);
+    });
+
+    console.log(`[Step 20] Code 433 rows:`, code433Rows);
+    console.log(`[Step 20] RM rows (col W):`, rowsRM);
+
+    for (let i = 0; i < code433Rows.length; i++) {
+      const Y     = code433Rows[i];
+      const nextY = code433Rows[i + 1] ?? Infinity;
+      const colAZ = 52; // AZ = col 52
+
+      // AZ(Y) = "RM SEMULA"
+      worksheet.getRow(Y).getCell(colAZ).value = "RM SEMULA";
+
+      // Filter baris RM antara Y dan Code 433 berikutnya
+      const rowsRMInRange = rowsRM.filter(r => r > Y && r < nextY);
+      const formulaStr = rowsRMInRange.length > 0
+        ? rowsRMInRange.map(r => `U${r}`).join("+")
+        : "0";
+
+      // AZ(Y+1) = formula SUM kolom U dari baris RM
+      worksheet.getRow(Y + 1).getCell(colAZ).value = { formula: `=${formulaStr}` };
+    }
+  },
+
+  // ----------------------------------------------------------
+  // STEP 21: Pada setiap baris Y dimana kolom A match Code 43
+  //          (XXXX.XXX), isi AZ(Y) = "RM SEMULA"
+  //          dan AZ(Y+1) = formula penjumlahan AZ(Y+1) dari
+  //          Step 20, antara Y dan Code 43 berikutnya
+  // ----------------------------------------------------------
+  async function step21_fillAZCode43(workbook, worksheet) {
+    const patternCode43  = /^\d{4}\.[A-Za-z0-9]{3}$/;
+    const patternCode433 = /^\d{4}\.[A-Za-z0-9]{3}\.[A-Za-z0-9]{3}$/;
+
+    const code43Rows  = [];
+    const code433Rows = [];
+
+    worksheet.eachRow({ includeEmpty: false }, (row) => {
+      const val = row.getCell(1).value ? String(row.getCell(1).value).trim() : "";
+      if (patternCode43.test(val))  code43Rows.push(row.number);
+      if (patternCode433.test(val)) code433Rows.push(row.number);
+    });
+
+    console.log(`[Step 21] Code 43 rows:`, code43Rows);
+    console.log(`[Step 21] Code 433 rows (from Step 20):`, code433Rows);
+
+    for (let i = 0; i < code43Rows.length; i++) {
+      const Y     = code43Rows[i];
+      const nextY = code43Rows[i + 1] ?? Infinity;
+      const colAZ = 52; // AZ = col 52
+
+      // AZ(Y) = "RM SEMULA"
+      worksheet.getRow(Y).getCell(colAZ).value = "RM SEMULA";
+
+      // Kumpulkan AZ(code433Row+1) antara Y dan Code 43 berikutnya
+      const step20Cells = code433Rows
+        .filter(r => r > Y && r < nextY)
+        .map(r => `AZ${r + 1}`);
+
+      const formulaStr = step20Cells.length > 0
+        ? step20Cells.join("+")
+        : "0";
+
+      worksheet.getRow(Y + 1).getCell(colAZ).value = { formula: `=${formulaStr}` };
+    }
+  },
+
+  // ----------------------------------------------------------
+  // STEP 22: Pada setiap baris Y dimana kolom A match Code 322
+  //          (XXX.XX.XX), isi AZ(Y) = "RM SEMULA"
+  //          dan AZ(Y+1) = formula penjumlahan AZ(Y+1) dari
+  //          Step 21, antara Y dan Code 322 berikutnya
+  // ----------------------------------------------------------
+  async function step22_fillAZCode322(workbook, worksheet) {
+    const patternCode322 = /^\d{3}\.\d{2}\.[A-Za-z0-9]{2}$/;
+    const patternCode43  = /^\d{4}\.[A-Za-z0-9]{3}$/;
+
+    const code322Rows = [];
+    const code43Rows  = [];
+
+    worksheet.eachRow({ includeEmpty: false }, (row) => {
+      const val = row.getCell(1).value ? String(row.getCell(1).value).trim() : "";
+      if (patternCode322.test(val)) code322Rows.push(row.number);
+      if (patternCode43.test(val))  code43Rows.push(row.number);
+    });
+
+    console.log(`[Step 22] Code 322 rows:`, code322Rows);
+    console.log(`[Step 22] Code 43 rows (from Step 21):`, code43Rows);
+
+    for (let i = 0; i < code322Rows.length; i++) {
+      const Y     = code322Rows[i];
+      const nextY = code322Rows[i + 1] ?? Infinity;
+      const colAZ = 52; // AZ = col 52
+
+      // AZ(Y) = "RM SEMULA"
+      worksheet.getRow(Y).getCell(colAZ).value = "RM SEMULA";
+
+      // Kumpulkan AZ(code43Row+1) antara Y dan Code 322 berikutnya
+      const step21Cells = code43Rows
+        .filter(r => r > Y && r < nextY)
+        .map(r => `AZ${r + 1}`);
+
+      const formulaStr = step21Cells.length > 0
+        ? step21Cells.join("+")
+        : "0";
+
+      worksheet.getRow(Y + 1).getCell(colAZ).value = { formula: `=${formulaStr}` };
     }
   },
 ];
