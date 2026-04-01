@@ -230,7 +230,7 @@ const STEPS = [
       }
     });
 
-    console.log(`[Step 7] Last row with data in col B: ${lastRow}`);
+    // console.log(`[Step 7] Last row with data in col B: ${lastRow}`);
 
     // Helper: outside border pada range
     function outsideBorder(rowStart, rowEnd, colStart, colEnd) {
@@ -304,7 +304,7 @@ const STEPS = [
     });
 
     const XX = lastRow;
-    console.log(`[Step 8] XX = ${XX}`);
+    // console.log(`[Step 8] XX = ${XX}`);
 
     const targetRows = [XX + 1, XX + 5, XX + 6];
     for (const r of targetRows) {
@@ -374,7 +374,7 @@ const STEPS = [
     });
 
     const XX = lastRow;
-    console.log(`[Step 11] XX = ${XX}`);
+    // console.log(`[Step 11] XX = ${XX}`);
 
     const targetRows = [XX + 1, XX + 5, XX + 6];
     for (const r of targetRows) {
@@ -428,8 +428,8 @@ const STEPS = [
       if (patternCode433.test(val)) code433Rows.push(row.number);
       if (pattern524.test(val))     rows524.push(row.number);
     });
-    console.log(`[Step 13] Code 433 rows:`, code433Rows);
-    console.log(`[Step 13] 524xxx rows:`, rows524);
+    // console.log(`[Step 13] Code 433 rows:`, code433Rows);
+    // console.log(`[Step 13] 524xxx rows:`, rows524);
     for (let i = 0; i < code433Rows.length; i++) {
       const Y        = code433Rows[i];
       const nextY    = code433Rows[i + 1] ?? Infinity;
@@ -461,8 +461,8 @@ const STEPS = [
       if (patternCode43.test(val))  code43Rows.push(row.number);
       if (patternCode433.test(val)) code433Rows.push(row.number);
     });
-    console.log(`[Step 14] Code 43 rows:`, code43Rows);
-    console.log(`[Step 14] Code 433 rows (from Step 13):`, code433Rows);
+    // console.log(`[Step 14] Code 43 rows:`, code43Rows);
+    // console.log(`[Step 14] Code 433 rows (from Step 13):`, code433Rows);
     for (let i = 0; i < code43Rows.length; i++) {
       const Y     = code43Rows[i];
       const nextY = code43Rows[i + 1] ?? Infinity;
@@ -494,8 +494,8 @@ const STEPS = [
       if (patternCode322.test(val)) code322Rows.push(row.number);
       if (patternCode43.test(val))  code43Rows.push(row.number);
     });
-    console.log(`[Step 15] Code 322 rows:`, code322Rows);
-    console.log(`[Step 15] Code 43 rows (from Step 14):`, code43Rows);
+    // console.log(`[Step 15] Code 322 rows:`, code322Rows);
+    // console.log(`[Step 15] Code 43 rows (from Step 14):`, code43Rows);
     for (let i = 0; i < code322Rows.length; i++) {
       const Y     = code322Rows[i];
       const nextY = code322Rows[i + 1] ?? Infinity;
@@ -529,8 +529,8 @@ const STEPS = [
       if (patternCode433.test(valA)) code433Rows.push(row.number);
       if (pattern524.test(valX))     rows524.push(row.number);
     });
-    console.log(`[Step 16] Code 433 rows (col A):`, code433Rows);
-    console.log(`[Step 16] 524xxx rows (col X):`, rows524);
+    // console.log(`[Step 16] Code 433 rows (col A):`, code433Rows);
+    // console.log(`[Step 16] 524xxx rows (col X):`, rows524);
     for (let i = 0; i < code433Rows.length; i++) {
       const Y     = code433Rows[i];
       const nextY = code433Rows[i + 1] ?? Infinity;
@@ -560,8 +560,8 @@ const STEPS = [
       if (patternCode43.test(val))  code43Rows.push(row.number);
       if (patternCode433.test(val)) code433Rows.push(row.number);
     });
-    console.log(`[Step 17] Code 43 rows:`, code43Rows);
-    console.log(`[Step 17] Code 433 rows:`, code433Rows);
+    // console.log(`[Step 17] Code 43 rows:`, code43Rows);
+    // console.log(`[Step 17] Code 433 rows:`, code433Rows);
     for (let i = 0; i < code43Rows.length; i++) {
       const Y     = code43Rows[i];
       const nextY = code43Rows[i + 1] ?? Infinity;
@@ -593,8 +593,8 @@ const STEPS = [
       if (patternCode322.test(val)) code322Rows.push(row.number);
       if (patternCode43.test(val))  code43Rows.push(row.number);
     });
-    console.log(`[Step 18] Code 322 rows:`, code322Rows);
-    console.log(`[Step 18] Code 43 rows (from Step 17):`, code43Rows);
+    // console.log(`[Step 18] Code 322 rows:`, code322Rows);
+    // console.log(`[Step 18] Code 43 rows (from Step 17):`, code43Rows);
     for (let i = 0; i < code322Rows.length; i++) {
       const Y     = code322Rows[i];
       const nextY = code322Rows[i + 1] ?? Infinity;
@@ -632,7 +632,7 @@ const STEPS = [
       }
     });
 
-    console.log(`[Step 19] Target rows for AY:`, [...targetRows].sort((a,b) => a-b));
+    // console.log(`[Step 19] Target rows for AY:`, [...targetRows].sort((a,b) => a-b));
 
     const colAY = 51; // AY = col 51
 
@@ -667,8 +667,8 @@ const STEPS = [
       if (valW === "RM")             rowsRM.push(row.number);
     });
 
-    console.log(`[Step 20] Code 433 rows:`, code433Rows);
-    console.log(`[Step 20] RM rows (col W):`, rowsRM);
+    // console.log(`[Step 20] Code 433 rows:`, code433Rows);
+    // console.log(`[Step 20] RM rows (col W):`, rowsRM);
 
     for (let i = 0; i < code433Rows.length; i++) {
       const Y     = code433Rows[i];
@@ -708,8 +708,8 @@ const STEPS = [
       if (patternCode433.test(val)) code433Rows.push(row.number);
     });
 
-    console.log(`[Step 21] Code 43 rows:`, code43Rows);
-    console.log(`[Step 21] Code 433 rows (from Step 20):`, code433Rows);
+    // console.log(`[Step 21] Code 43 rows:`, code43Rows);
+    // console.log(`[Step 21] Code 433 rows (from Step 20):`, code433Rows);
 
     for (let i = 0; i < code43Rows.length; i++) {
       const Y     = code43Rows[i];
@@ -751,8 +751,8 @@ const STEPS = [
       if (patternCode43.test(val))  code43Rows.push(row.number);
     });
 
-    console.log(`[Step 22] Code 322 rows:`, code322Rows);
-    console.log(`[Step 22] Code 43 rows (from Step 21):`, code43Rows);
+    // console.log(`[Step 22] Code 322 rows:`, code322Rows);
+    // console.log(`[Step 22] Code 43 rows (from Step 21):`, code43Rows);
 
     for (let i = 0; i < code322Rows.length; i++) {
       const Y     = code322Rows[i];
@@ -795,8 +795,8 @@ const STEPS = [
       if (valAT === "RM")            rowsRM.push(row.number);
     });
 
-    console.log(`[Step 23] Code 433 rows:`, code433Rows);
-    console.log(`[Step 23] RM rows (col AT):`, rowsRM);
+    // console.log(`[Step 23] Code 433 rows:`, code433Rows);
+    // console.log(`[Step 23] RM rows (col AT):`, rowsRM);
 
     for (let i = 0; i < code433Rows.length; i++) {
       const Y     = code433Rows[i];
@@ -836,8 +836,8 @@ const STEPS = [
       if (patternCode433.test(val)) code433Rows.push(row.number);
     });
 
-    console.log(`[Step 24] Code 43 rows:`, code43Rows);
-    console.log(`[Step 24] Code 433 rows (from Step 23):`, code433Rows);
+    // console.log(`[Step 24] Code 43 rows:`, code43Rows);
+    // console.log(`[Step 24] Code 433 rows (from Step 23):`, code433Rows);
 
     for (let i = 0; i < code43Rows.length; i++) {
       const Y     = code43Rows[i];
@@ -879,8 +879,8 @@ const STEPS = [
       if (patternCode43.test(val))  code43Rows.push(row.number);
     });
 
-    console.log(`[Step 25] Code 322 rows:`, code322Rows);
-    console.log(`[Step 25] Code 43 rows (from Step 24):`, code43Rows);
+    // console.log(`[Step 25] Code 322 rows:`, code322Rows);
+    // console.log(`[Step 25] Code 43 rows (from Step 24):`, code43Rows);
 
     for (let i = 0; i < code322Rows.length; i++) {
       const Y     = code322Rows[i];
@@ -923,7 +923,7 @@ const STEPS = [
       }
     });
 
-    console.log(`[Step 26] Trigger rows for BB:`, [...triggerRows].sort((a,b) => a-b));
+    // console.log(`[Step 26] Trigger rows for BB:`, [...triggerRows].sort((a,b) => a-b));
 
     const colBB = 54; // BB = col 54
 
