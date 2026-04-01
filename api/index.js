@@ -935,6 +935,201 @@ const STEPS = [
       worksheet.getRow(Y + 1).getCell(colBB).value = { formula: `=BA${Y + 1}-AZ${Y + 1}` };
     }
   },
+
+  // ----------------------------------------------------------
+  // STEP 27: BC - PNBP SEMULA untuk Code 433
+  //          Cari "PNP" di kolom W, sum kolom U
+  // ----------------------------------------------------------
+  async function step27_fillBCCode433(workbook, worksheet) {
+    const patternCode433 = /^\d{4}\.[A-Za-z0-9]{3}\.[A-Za-z0-9]{3}$/;
+    const code433Rows = [];
+    const rowsPNP     = [];
+
+    worksheet.eachRow({ includeEmpty: false }, (row) => {
+      const valA = row.getCell(1).value  ? String(row.getCell(1).value).trim()  : "";
+      const valW = row.getCell(23).value ? String(row.getCell(23).value).trim() : "";
+      if (patternCode433.test(valA)) code433Rows.push(row.number);
+      if (valW === "PNP")            rowsPNP.push(row.number);
+    });
+
+    for (let i = 0; i < code433Rows.length; i++) {
+      const Y     = code433Rows[i];
+      const nextY = code433Rows[i + 1] ?? Infinity;
+      const colBC = 55; // BC = col 55
+      worksheet.getRow(Y).getCell(colBC).value = "PNBP SEMULA";
+      const rowsPNPInRange = rowsPNP.filter(r => r > Y && r < nextY);
+      const formulaStr = rowsPNPInRange.length > 0
+        ? rowsPNPInRange.map(r => `U${r}`).join("+") : "0";
+      worksheet.getRow(Y + 1).getCell(colBC).value = { formula: `=${formulaStr}` };
+    }
+  },
+
+  // ----------------------------------------------------------
+  // STEP 28: BC - PNBP SEMULA untuk Code 43
+  // ----------------------------------------------------------
+  async function step28_fillBCCode43(workbook, worksheet) {
+    const patternCode43  = /^\d{4}\.[A-Za-z0-9]{3}$/;
+    const patternCode433 = /^\d{4}\.[A-Za-z0-9]{3}\.[A-Za-z0-9]{3}$/;
+    const code43Rows  = [];
+    const code433Rows = [];
+
+    worksheet.eachRow({ includeEmpty: false }, (row) => {
+      const val = row.getCell(1).value ? String(row.getCell(1).value).trim() : "";
+      if (patternCode43.test(val))  code43Rows.push(row.number);
+      if (patternCode433.test(val)) code433Rows.push(row.number);
+    });
+
+    for (let i = 0; i < code43Rows.length; i++) {
+      const Y     = code43Rows[i];
+      const nextY = code43Rows[i + 1] ?? Infinity;
+      const colBC = 55;
+      worksheet.getRow(Y).getCell(colBC).value = "PNBP SEMULA";
+      const step27Cells = code433Rows
+        .filter(r => r > Y && r < nextY)
+        .map(r => `BC${r + 1}`);
+      const formulaStr = step27Cells.length > 0 ? step27Cells.join("+") : "0";
+      worksheet.getRow(Y + 1).getCell(colBC).value = { formula: `=${formulaStr}` };
+    }
+  },
+
+  // ----------------------------------------------------------
+  // STEP 29: BC - PNBP SEMULA untuk Code 322
+  // ----------------------------------------------------------
+  async function step29_fillBCCode322(workbook, worksheet) {
+    const patternCode322 = /^\d{3}\.\d{2}\.[A-Za-z0-9]{2}$/;
+    const patternCode43  = /^\d{4}\.[A-Za-z0-9]{3}$/;
+    const code322Rows = [];
+    const code43Rows  = [];
+
+    worksheet.eachRow({ includeEmpty: false }, (row) => {
+      const val = row.getCell(1).value ? String(row.getCell(1).value).trim() : "";
+      if (patternCode322.test(val)) code322Rows.push(row.number);
+      if (patternCode43.test(val))  code43Rows.push(row.number);
+    });
+
+    for (let i = 0; i < code322Rows.length; i++) {
+      const Y     = code322Rows[i];
+      const nextY = code322Rows[i + 1] ?? Infinity;
+      const colBC = 55;
+      worksheet.getRow(Y).getCell(colBC).value = "PNBP SEMULA";
+      const step28Cells = code43Rows
+        .filter(r => r > Y && r < nextY)
+        .map(r => `BC${r + 1}`);
+      const formulaStr = step28Cells.length > 0 ? step28Cells.join("+") : "0";
+      worksheet.getRow(Y + 1).getCell(colBC).value = { formula: `=${formulaStr}` };
+    }
+  },
+
+  // ----------------------------------------------------------
+  // STEP 30: BD - PNBP MENJADI untuk Code 433
+  //          Cari "PNP" di kolom AT, sum kolom AR
+  // ----------------------------------------------------------
+  async function step30_fillBDCode433(workbook, worksheet) {
+    const patternCode433 = /^\d{4}\.[A-Za-z0-9]{3}\.[A-Za-z0-9]{3}$/;
+    const code433Rows = [];
+    const rowsPNP     = [];
+
+    worksheet.eachRow({ includeEmpty: false }, (row) => {
+      const valA  = row.getCell(1).value  ? String(row.getCell(1).value).trim()  : "";
+      const valAT = row.getCell(46).value ? String(row.getCell(46).value).trim() : "";
+      if (patternCode433.test(valA)) code433Rows.push(row.number);
+      if (valAT === "PNP")           rowsPNP.push(row.number);
+    });
+
+    for (let i = 0; i < code433Rows.length; i++) {
+      const Y     = code433Rows[i];
+      const nextY = code433Rows[i + 1] ?? Infinity;
+      const colBD = 56; // BD = col 56
+      worksheet.getRow(Y).getCell(colBD).value = "PNBP MENJADI";
+      const rowsPNPInRange = rowsPNP.filter(r => r > Y && r < nextY);
+      const formulaStr = rowsPNPInRange.length > 0
+        ? rowsPNPInRange.map(r => `AR${r}`).join("+") : "0";
+      worksheet.getRow(Y + 1).getCell(colBD).value = { formula: `=${formulaStr}` };
+    }
+  },
+
+  // ----------------------------------------------------------
+  // STEP 31: BD - PNBP MENJADI untuk Code 43
+  // ----------------------------------------------------------
+  async function step31_fillBDCode43(workbook, worksheet) {
+    const patternCode43  = /^\d{4}\.[A-Za-z0-9]{3}$/;
+    const patternCode433 = /^\d{4}\.[A-Za-z0-9]{3}\.[A-Za-z0-9]{3}$/;
+    const code43Rows  = [];
+    const code433Rows = [];
+
+    worksheet.eachRow({ includeEmpty: false }, (row) => {
+      const val = row.getCell(1).value ? String(row.getCell(1).value).trim() : "";
+      if (patternCode43.test(val))  code43Rows.push(row.number);
+      if (patternCode433.test(val)) code433Rows.push(row.number);
+    });
+
+    for (let i = 0; i < code43Rows.length; i++) {
+      const Y     = code43Rows[i];
+      const nextY = code43Rows[i + 1] ?? Infinity;
+      const colBD = 56;
+      worksheet.getRow(Y).getCell(colBD).value = "PNBP MENJADI";
+      const step30Cells = code433Rows
+        .filter(r => r > Y && r < nextY)
+        .map(r => `BD${r + 1}`);
+      const formulaStr = step30Cells.length > 0 ? step30Cells.join("+") : "0";
+      worksheet.getRow(Y + 1).getCell(colBD).value = { formula: `=${formulaStr}` };
+    }
+  },
+
+  // ----------------------------------------------------------
+  // STEP 32: BD - PNBP MENJADI untuk Code 322
+  // ----------------------------------------------------------
+  async function step32_fillBDCode322(workbook, worksheet) {
+    const patternCode322 = /^\d{3}\.\d{2}\.[A-Za-z0-9]{2}$/;
+    const patternCode43  = /^\d{4}\.[A-Za-z0-9]{3}$/;
+    const code322Rows = [];
+    const code43Rows  = [];
+
+    worksheet.eachRow({ includeEmpty: false }, (row) => {
+      const val = row.getCell(1).value ? String(row.getCell(1).value).trim() : "";
+      if (patternCode322.test(val)) code322Rows.push(row.number);
+      if (patternCode43.test(val))  code43Rows.push(row.number);
+    });
+
+    for (let i = 0; i < code322Rows.length; i++) {
+      const Y     = code322Rows[i];
+      const nextY = code322Rows[i + 1] ?? Infinity;
+      const colBD = 56;
+      worksheet.getRow(Y).getCell(colBD).value = "PNBP MENJADI";
+      const step31Cells = code43Rows
+        .filter(r => r > Y && r < nextY)
+        .map(r => `BD${r + 1}`);
+      const formulaStr = step31Cells.length > 0 ? step31Cells.join("+") : "0";
+      worksheet.getRow(Y + 1).getCell(colBD).value = { formula: `=${formulaStr}` };
+    }
+  },
+
+  // ----------------------------------------------------------
+  // STEP 33: BE - SELISIH PNBP = BD - BC
+  //          BE(Y)   = "SELISIH"
+  //          BE(Y+1) = =BD{Y+1} - BC{Y+1}
+  // ----------------------------------------------------------
+  async function step33_selisihBE(workbook, worksheet) {
+    const patternCode433 = /^\d{4}\.[A-Za-z0-9]{3}\.[A-Za-z0-9]{3}$/;
+    const patternCode43  = /^\d{4}\.[A-Za-z0-9]{3}$/;
+    const patternCode322 = /^\d{3}\.\d{2}\.[A-Za-z0-9]{2}$/;
+
+    const triggerRows = new Set();
+
+    worksheet.eachRow({ includeEmpty: false }, (row) => {
+      const val = row.getCell(1).value ? String(row.getCell(1).value).trim() : "";
+      if (patternCode433.test(val) || patternCode43.test(val) || patternCode322.test(val)) {
+        triggerRows.add(row.number);
+      }
+    });
+
+    const colBE = 57; // BE = col 57
+
+    for (const Y of triggerRows) {
+      worksheet.getRow(Y).getCell(colBE).value = "SELISIH";
+      worksheet.getRow(Y + 1).getCell(colBE).value = { formula: `=BD${Y + 1}-BC${Y + 1}` };
+    }
+  },
 ];
 
 // ============================================================
