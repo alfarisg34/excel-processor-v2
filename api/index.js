@@ -1130,6 +1130,194 @@ const STEPS = [
       worksheet.getRow(Y + 1).getCell(colBE).value = { formula: `=BD${Y + 1}-BC${Y + 1}` };
     }
   },
+
+  // ----------------------------------------------------------
+  // STEP 34: BF - 524 RM SEMULA untuk Code 433
+  //          Cari baris dimana col A = 524xxx DAN col W = "RM"
+  //          sum kolom U
+  // ----------------------------------------------------------
+  async function step34_fillBFCode433(workbook, worksheet) {
+    const patternCode433 = /^\d{4}\.[A-Za-z0-9]{3}\.[A-Za-z0-9]{3}$/;
+    const pattern524     = /^524\d{3}$/;
+    const code433Rows = [];
+    const rows524RM   = [];
+
+    worksheet.eachRow({ includeEmpty: false }, (row) => {
+      const valA = row.getCell(1).value  ? String(row.getCell(1).value).trim()  : "";
+      const valW = row.getCell(23).value ? String(row.getCell(23).value).trim() : "";
+      if (patternCode433.test(valA))               code433Rows.push(row.number);
+      if (pattern524.test(valA) && valW === "RM")  rows524RM.push(row.number);
+    });
+
+    for (let i = 0; i < code433Rows.length; i++) {
+      const Y     = code433Rows[i];
+      const nextY = code433Rows[i + 1] ?? Infinity;
+      const colBF = 58; // BF = col 58
+      worksheet.getRow(Y).getCell(colBF).value = "524 RM SEMULA";
+      const inRange = rows524RM.filter(r => r > Y && r < nextY);
+      const formulaStr = inRange.length > 0 ? inRange.map(r => `U${r}`).join("+") : "0";
+      worksheet.getRow(Y + 1).getCell(colBF).value = { formula: `=${formulaStr}` };
+    }
+  },
+
+  // ----------------------------------------------------------
+  // STEP 35: BF - 524 RM SEMULA untuk Code 43
+  // ----------------------------------------------------------
+  async function step35_fillBFCode43(workbook, worksheet) {
+    const patternCode43  = /^\d{4}\.[A-Za-z0-9]{3}$/;
+    const patternCode433 = /^\d{4}\.[A-Za-z0-9]{3}\.[A-Za-z0-9]{3}$/;
+    const code43Rows  = [];
+    const code433Rows = [];
+
+    worksheet.eachRow({ includeEmpty: false }, (row) => {
+      const val = row.getCell(1).value ? String(row.getCell(1).value).trim() : "";
+      if (patternCode43.test(val))  code43Rows.push(row.number);
+      if (patternCode433.test(val)) code433Rows.push(row.number);
+    });
+
+    for (let i = 0; i < code43Rows.length; i++) {
+      const Y     = code43Rows[i];
+      const nextY = code43Rows[i + 1] ?? Infinity;
+      const colBF = 58;
+      worksheet.getRow(Y).getCell(colBF).value = "524 RM SEMULA";
+      const cells = code433Rows.filter(r => r > Y && r < nextY).map(r => `BF${r + 1}`);
+      const formulaStr = cells.length > 0 ? cells.join("+") : "0";
+      worksheet.getRow(Y + 1).getCell(colBF).value = { formula: `=${formulaStr}` };
+    }
+  },
+
+  // ----------------------------------------------------------
+  // STEP 36: BF - 524 RM SEMULA untuk Code 322
+  // ----------------------------------------------------------
+  async function step36_fillBFCode322(workbook, worksheet) {
+    const patternCode322 = /^\d{3}\.\d{2}\.[A-Za-z0-9]{2}$/;
+    const patternCode43  = /^\d{4}\.[A-Za-z0-9]{3}$/;
+    const code322Rows = [];
+    const code43Rows  = [];
+
+    worksheet.eachRow({ includeEmpty: false }, (row) => {
+      const val = row.getCell(1).value ? String(row.getCell(1).value).trim() : "";
+      if (patternCode322.test(val)) code322Rows.push(row.number);
+      if (patternCode43.test(val))  code43Rows.push(row.number);
+    });
+
+    for (let i = 0; i < code322Rows.length; i++) {
+      const Y     = code322Rows[i];
+      const nextY = code322Rows[i + 1] ?? Infinity;
+      const colBF = 58;
+      worksheet.getRow(Y).getCell(colBF).value = "524 RM SEMULA";
+      const cells = code43Rows.filter(r => r > Y && r < nextY).map(r => `BF${r + 1}`);
+      const formulaStr = cells.length > 0 ? cells.join("+") : "0";
+      worksheet.getRow(Y + 1).getCell(colBF).value = { formula: `=${formulaStr}` };
+    }
+  },
+
+  // ----------------------------------------------------------
+  // STEP 37: BG - 524 RM MENJADI untuk Code 433
+  //          Cari baris dimana col X = 524xxx DAN col AT = "RM"
+  //          sum kolom AR
+  // ----------------------------------------------------------
+  async function step37_fillBGCode433(workbook, worksheet) {
+    const patternCode433 = /^\d{4}\.[A-Za-z0-9]{3}\.[A-Za-z0-9]{3}$/;
+    const pattern524     = /^524\d{3}$/;
+    const code433Rows = [];
+    const rows524RM   = [];
+
+    worksheet.eachRow({ includeEmpty: false }, (row) => {
+      const valA  = row.getCell(1).value  ? String(row.getCell(1).value).trim()  : "";
+      const valX  = row.getCell(24).value ? String(row.getCell(24).value).trim() : "";
+      const valAT = row.getCell(46).value ? String(row.getCell(46).value).trim() : "";
+      if (patternCode433.test(valA))               code433Rows.push(row.number);
+      if (pattern524.test(valX) && valAT === "RM") rows524RM.push(row.number);
+    });
+
+    for (let i = 0; i < code433Rows.length; i++) {
+      const Y     = code433Rows[i];
+      const nextY = code433Rows[i + 1] ?? Infinity;
+      const colBG = 59; // BG = col 59
+      worksheet.getRow(Y).getCell(colBG).value = "524 RM MENJADI";
+      const inRange = rows524RM.filter(r => r > Y && r < nextY);
+      const formulaStr = inRange.length > 0 ? inRange.map(r => `AR${r}`).join("+") : "0";
+      worksheet.getRow(Y + 1).getCell(colBG).value = { formula: `=${formulaStr}` };
+    }
+  },
+
+  // ----------------------------------------------------------
+  // STEP 38: BG - 524 RM MENJADI untuk Code 43
+  // ----------------------------------------------------------
+  async function step38_fillBGCode43(workbook, worksheet) {
+    const patternCode43  = /^\d{4}\.[A-Za-z0-9]{3}$/;
+    const patternCode433 = /^\d{4}\.[A-Za-z0-9]{3}\.[A-Za-z0-9]{3}$/;
+    const code43Rows  = [];
+    const code433Rows = [];
+
+    worksheet.eachRow({ includeEmpty: false }, (row) => {
+      const val = row.getCell(1).value ? String(row.getCell(1).value).trim() : "";
+      if (patternCode43.test(val))  code43Rows.push(row.number);
+      if (patternCode433.test(val)) code433Rows.push(row.number);
+    });
+
+    for (let i = 0; i < code43Rows.length; i++) {
+      const Y     = code43Rows[i];
+      const nextY = code43Rows[i + 1] ?? Infinity;
+      const colBG = 59;
+      worksheet.getRow(Y).getCell(colBG).value = "524 RM MENJADI";
+      const cells = code433Rows.filter(r => r > Y && r < nextY).map(r => `BG${r + 1}`);
+      const formulaStr = cells.length > 0 ? cells.join("+") : "0";
+      worksheet.getRow(Y + 1).getCell(colBG).value = { formula: `=${formulaStr}` };
+    }
+  },
+
+  // ----------------------------------------------------------
+  // STEP 39: BG - 524 RM MENJADI untuk Code 322
+  // ----------------------------------------------------------
+  async function step39_fillBGCode322(workbook, worksheet) {
+    const patternCode322 = /^\d{3}\.\d{2}\.[A-Za-z0-9]{2}$/;
+    const patternCode43  = /^\d{4}\.[A-Za-z0-9]{3}$/;
+    const code322Rows = [];
+    const code43Rows  = [];
+
+    worksheet.eachRow({ includeEmpty: false }, (row) => {
+      const val = row.getCell(1).value ? String(row.getCell(1).value).trim() : "";
+      if (patternCode322.test(val)) code322Rows.push(row.number);
+      if (patternCode43.test(val))  code43Rows.push(row.number);
+    });
+
+    for (let i = 0; i < code322Rows.length; i++) {
+      const Y     = code322Rows[i];
+      const nextY = code322Rows[i + 1] ?? Infinity;
+      const colBG = 59;
+      worksheet.getRow(Y).getCell(colBG).value = "524 RM MENJADI";
+      const cells = code43Rows.filter(r => r > Y && r < nextY).map(r => `BG${r + 1}`);
+      const formulaStr = cells.length > 0 ? cells.join("+") : "0";
+      worksheet.getRow(Y + 1).getCell(colBG).value = { formula: `=${formulaStr}` };
+    }
+  },
+
+  // ----------------------------------------------------------
+  // STEP 40: BH - SELISIH = BG - BF
+  //          BH(Y)   = "SELISIH"
+  //          BH(Y+1) = =BG{Y+1} - BF{Y+1}
+  // ----------------------------------------------------------
+  async function step40_selisihBH(workbook, worksheet) {
+    const patternCode433 = /^\d{4}\.[A-Za-z0-9]{3}\.[A-Za-z0-9]{3}$/;
+    const patternCode43  = /^\d{4}\.[A-Za-z0-9]{3}$/;
+    const patternCode322 = /^\d{3}\.\d{2}\.[A-Za-z0-9]{2}$/;
+
+    const triggerRows = new Set();
+    worksheet.eachRow({ includeEmpty: false }, (row) => {
+      const val = row.getCell(1).value ? String(row.getCell(1).value).trim() : "";
+      if (patternCode433.test(val) || patternCode43.test(val) || patternCode322.test(val)) {
+        triggerRows.add(row.number);
+      }
+    });
+
+    const colBH = 60; // BH = col 60
+    for (const Y of triggerRows) {
+      worksheet.getRow(Y).getCell(colBH).value = "SELISIH";
+      worksheet.getRow(Y + 1).getCell(colBH).value = { formula: `=BG${Y + 1}-BF${Y + 1}` };
+    }
+  },
 ];
 
 // ============================================================
