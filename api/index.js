@@ -230,7 +230,7 @@ const STEPS = [
       }
     });
 
-    // console.log(`[Step 7] Last row with data in col B: ${lastRow}`);
+    console.log(`[Step 7] Last row with data in col B: ${lastRow}`);
 
     // Helper: outside border pada range
     function outsideBorder(rowStart, rowEnd, colStart, colEnd) {
@@ -304,7 +304,7 @@ const STEPS = [
     });
 
     const XX = lastRow;
-    // console.log(`[Step 8] XX = ${XX}`);
+    console.log(`[Step 8] XX = ${XX}`);
 
     const targetRows = [XX + 1, XX + 5, XX + 6];
     for (const r of targetRows) {
@@ -374,7 +374,7 @@ const STEPS = [
     });
 
     const XX = lastRow;
-    // console.log(`[Step 11] XX = ${XX}`);
+    console.log(`[Step 11] XX = ${XX}`);
 
     const targetRows = [XX + 1, XX + 5, XX + 6];
     for (const r of targetRows) {
@@ -428,8 +428,8 @@ const STEPS = [
       if (patternCode433.test(val)) code433Rows.push(row.number);
       if (pattern524.test(val))     rows524.push(row.number);
     });
-    // console.log(`[Step 13] Code 433 rows:`, code433Rows);
-    // console.log(`[Step 13] 524xxx rows:`, rows524);
+    console.log(`[Step 13] Code 433 rows:`, code433Rows);
+    console.log(`[Step 13] 524xxx rows:`, rows524);
     for (let i = 0; i < code433Rows.length; i++) {
       const Y        = code433Rows[i];
       const nextY    = code433Rows[i + 1] ?? Infinity;
@@ -461,8 +461,8 @@ const STEPS = [
       if (patternCode43.test(val))  code43Rows.push(row.number);
       if (patternCode433.test(val)) code433Rows.push(row.number);
     });
-    // console.log(`[Step 14] Code 43 rows:`, code43Rows);
-    // console.log(`[Step 14] Code 433 rows (from Step 13):`, code433Rows);
+    console.log(`[Step 14] Code 43 rows:`, code43Rows);
+    console.log(`[Step 14] Code 433 rows (from Step 13):`, code433Rows);
     for (let i = 0; i < code43Rows.length; i++) {
       const Y     = code43Rows[i];
       const nextY = code43Rows[i + 1] ?? Infinity;
@@ -494,8 +494,8 @@ const STEPS = [
       if (patternCode322.test(val)) code322Rows.push(row.number);
       if (patternCode43.test(val))  code43Rows.push(row.number);
     });
-    // console.log(`[Step 15] Code 322 rows:`, code322Rows);
-    // console.log(`[Step 15] Code 43 rows (from Step 14):`, code43Rows);
+    console.log(`[Step 15] Code 322 rows:`, code322Rows);
+    console.log(`[Step 15] Code 43 rows (from Step 14):`, code43Rows);
     for (let i = 0; i < code322Rows.length; i++) {
       const Y     = code322Rows[i];
       const nextY = code322Rows[i + 1] ?? Infinity;
@@ -529,8 +529,8 @@ const STEPS = [
       if (patternCode433.test(valA)) code433Rows.push(row.number);
       if (pattern524.test(valX))     rows524.push(row.number);
     });
-    // console.log(`[Step 16] Code 433 rows (col A):`, code433Rows);
-    // console.log(`[Step 16] 524xxx rows (col X):`, rows524);
+    console.log(`[Step 16] Code 433 rows (col A):`, code433Rows);
+    console.log(`[Step 16] 524xxx rows (col X):`, rows524);
     for (let i = 0; i < code433Rows.length; i++) {
       const Y     = code433Rows[i];
       const nextY = code433Rows[i + 1] ?? Infinity;
@@ -560,8 +560,8 @@ const STEPS = [
       if (patternCode43.test(val))  code43Rows.push(row.number);
       if (patternCode433.test(val)) code433Rows.push(row.number);
     });
-    // console.log(`[Step 17] Code 43 rows:`, code43Rows);
-    // console.log(`[Step 17] Code 433 rows:`, code433Rows);
+    console.log(`[Step 17] Code 43 rows:`, code43Rows);
+    console.log(`[Step 17] Code 433 rows:`, code433Rows);
     for (let i = 0; i < code43Rows.length; i++) {
       const Y     = code43Rows[i];
       const nextY = code43Rows[i + 1] ?? Infinity;
@@ -593,8 +593,8 @@ const STEPS = [
       if (patternCode322.test(val)) code322Rows.push(row.number);
       if (patternCode43.test(val))  code43Rows.push(row.number);
     });
-    // console.log(`[Step 18] Code 322 rows:`, code322Rows);
-    // console.log(`[Step 18] Code 43 rows (from Step 17):`, code43Rows);
+    console.log(`[Step 18] Code 322 rows:`, code322Rows);
+    console.log(`[Step 18] Code 43 rows (from Step 17):`, code43Rows);
     for (let i = 0; i < code322Rows.length; i++) {
       const Y     = code322Rows[i];
       const nextY = code322Rows[i + 1] ?? Infinity;
@@ -632,7 +632,7 @@ const STEPS = [
       }
     });
 
-    // console.log(`[Step 19] Target rows for AY:`, [...targetRows].sort((a,b) => a-b));
+    console.log(`[Step 19] Target rows for AY:`, [...targetRows].sort((a,b) => a-b));
 
     const colAY = 51; // AY = col 51
 
@@ -667,8 +667,8 @@ const STEPS = [
       if (valW === "RM")             rowsRM.push(row.number);
     });
 
-    // console.log(`[Step 20] Code 433 rows:`, code433Rows);
-    // console.log(`[Step 20] RM rows (col W):`, rowsRM);
+    console.log(`[Step 20] Code 433 rows:`, code433Rows);
+    console.log(`[Step 20] RM rows (col W):`, rowsRM);
 
     for (let i = 0; i < code433Rows.length; i++) {
       const Y     = code433Rows[i];
@@ -708,8 +708,8 @@ const STEPS = [
       if (patternCode433.test(val)) code433Rows.push(row.number);
     });
 
-    // console.log(`[Step 21] Code 43 rows:`, code43Rows);
-    // console.log(`[Step 21] Code 433 rows (from Step 20):`, code433Rows);
+    console.log(`[Step 21] Code 43 rows:`, code43Rows);
+    console.log(`[Step 21] Code 433 rows (from Step 20):`, code433Rows);
 
     for (let i = 0; i < code43Rows.length; i++) {
       const Y     = code43Rows[i];
@@ -751,8 +751,8 @@ const STEPS = [
       if (patternCode43.test(val))  code43Rows.push(row.number);
     });
 
-    // console.log(`[Step 22] Code 322 rows:`, code322Rows);
-    // console.log(`[Step 22] Code 43 rows (from Step 21):`, code43Rows);
+    console.log(`[Step 22] Code 322 rows:`, code322Rows);
+    console.log(`[Step 22] Code 43 rows (from Step 21):`, code43Rows);
 
     for (let i = 0; i < code322Rows.length; i++) {
       const Y     = code322Rows[i];
@@ -795,8 +795,8 @@ const STEPS = [
       if (valAT === "RM")            rowsRM.push(row.number);
     });
 
-    // console.log(`[Step 23] Code 433 rows:`, code433Rows);
-    // console.log(`[Step 23] RM rows (col AT):`, rowsRM);
+    console.log(`[Step 23] Code 433 rows:`, code433Rows);
+    console.log(`[Step 23] RM rows (col AT):`, rowsRM);
 
     for (let i = 0; i < code433Rows.length; i++) {
       const Y     = code433Rows[i];
@@ -836,8 +836,8 @@ const STEPS = [
       if (patternCode433.test(val)) code433Rows.push(row.number);
     });
 
-    // console.log(`[Step 24] Code 43 rows:`, code43Rows);
-    // console.log(`[Step 24] Code 433 rows (from Step 23):`, code433Rows);
+    console.log(`[Step 24] Code 43 rows:`, code43Rows);
+    console.log(`[Step 24] Code 433 rows (from Step 23):`, code433Rows);
 
     for (let i = 0; i < code43Rows.length; i++) {
       const Y     = code43Rows[i];
@@ -879,8 +879,8 @@ const STEPS = [
       if (patternCode43.test(val))  code43Rows.push(row.number);
     });
 
-    // console.log(`[Step 25] Code 322 rows:`, code322Rows);
-    // console.log(`[Step 25] Code 43 rows (from Step 24):`, code43Rows);
+    console.log(`[Step 25] Code 322 rows:`, code322Rows);
+    console.log(`[Step 25] Code 43 rows (from Step 24):`, code43Rows);
 
     for (let i = 0; i < code322Rows.length; i++) {
       const Y     = code322Rows[i];
@@ -923,7 +923,7 @@ const STEPS = [
       }
     });
 
-    // console.log(`[Step 26] Trigger rows for BB:`, [...triggerRows].sort((a,b) => a-b));
+    console.log(`[Step 26] Trigger rows for BB:`, [...triggerRows].sort((a,b) => a-b));
 
     const colBB = 54; // BB = col 54
 
@@ -1504,6 +1504,341 @@ const STEPS = [
     for (const Y of triggerRows) {
       worksheet.getRow(Y).getCell(colBK).value = "SELISIH";
       worksheet.getRow(Y + 1).getCell(colBK).value = { formula: `=BJ${Y + 1}-BI${Y + 1}` };
+    }
+  },
+
+  // ----------------------------------------------------------
+  // HELPER pattern reusable
+  // ----------------------------------------------------------
+
+  // STEP 48-50: BL, BM, BN - NON 524 SEMULA, MENJADI, SELISIH
+  // NON 524 = 6 digit di col A tidak diawali 524
+  // SEMULA: sum kolom U, MENJADI: sum kolom AR (col X tidak diawali 524)
+
+  async function step48_fillBLCode433(workbook, worksheet) {
+    const patternCode433 = /^\d{4}\.[A-Za-z0-9]{3}\.[A-Za-z0-9]{3}$/;
+    const pattern6digit  = /^\d{6}$/;
+    const code433Rows = [];
+    const rowsNon524  = [];
+    worksheet.eachRow({ includeEmpty: false }, (row) => {
+      const valA = row.getCell(1).value ? String(row.getCell(1).value).trim() : "";
+      if (patternCode433.test(valA)) code433Rows.push(row.number);
+      if (pattern6digit.test(valA) && !valA.startsWith("524")) rowsNon524.push(row.number);
+    });
+    for (let i = 0; i < code433Rows.length; i++) {
+      const Y = code433Rows[i], nextY = code433Rows[i+1] ?? Infinity, col = 64;
+      worksheet.getRow(Y).getCell(col).value = "NON 524 SEMULA";
+      const inRange = rowsNon524.filter(r => r > Y && r < nextY);
+      worksheet.getRow(Y+1).getCell(col).value = { formula: `=${inRange.length > 0 ? inRange.map(r=>`U${r}`).join("+") : "0"}` };
+    }
+  },
+  async function step49_fillBLCode43(workbook, worksheet) {
+    const patternCode43 = /^\d{4}\.[A-Za-z0-9]{3}$/, patternCode433 = /^\d{4}\.[A-Za-z0-9]{3}\.[A-Za-z0-9]{3}$/;
+    const code43Rows = [], code433Rows = [];
+    worksheet.eachRow({ includeEmpty: false }, (row) => {
+      const val = row.getCell(1).value ? String(row.getCell(1).value).trim() : "";
+      if (patternCode43.test(val)) code43Rows.push(row.number);
+      if (patternCode433.test(val)) code433Rows.push(row.number);
+    });
+    for (let i = 0; i < code43Rows.length; i++) {
+      const Y = code43Rows[i], nextY = code43Rows[i+1] ?? Infinity, col = 64;
+      worksheet.getRow(Y).getCell(col).value = "NON 524 SEMULA";
+      const cells = code433Rows.filter(r => r > Y && r < nextY).map(r => `BL${r+1}`);
+      worksheet.getRow(Y+1).getCell(col).value = { formula: `=${cells.length > 0 ? cells.join("+") : "0"}` };
+    }
+  },
+  async function step50_fillBLCode322(workbook, worksheet) {
+    const patternCode322 = /^\d{3}\.\d{2}\.[A-Za-z0-9]{2}$/, patternCode43 = /^\d{4}\.[A-Za-z0-9]{3}$/;
+    const code322Rows = [], code43Rows = [];
+    worksheet.eachRow({ includeEmpty: false }, (row) => {
+      const val = row.getCell(1).value ? String(row.getCell(1).value).trim() : "";
+      if (patternCode322.test(val)) code322Rows.push(row.number);
+      if (patternCode43.test(val)) code43Rows.push(row.number);
+    });
+    for (let i = 0; i < code322Rows.length; i++) {
+      const Y = code322Rows[i], nextY = code322Rows[i+1] ?? Infinity, col = 64;
+      worksheet.getRow(Y).getCell(col).value = "NON 524 SEMULA";
+      const cells = code43Rows.filter(r => r > Y && r < nextY).map(r => `BL${r+1}`);
+      worksheet.getRow(Y+1).getCell(col).value = { formula: `=${cells.length > 0 ? cells.join("+") : "0"}` };
+    }
+  },
+  async function step51_fillBMCode433(workbook, worksheet) {
+    const patternCode433 = /^\d{4}\.[A-Za-z0-9]{3}\.[A-Za-z0-9]{3}$/;
+    const pattern6digit  = /^\d{6}$/;
+    const code433Rows = [], rowsNon524 = [];
+    worksheet.eachRow({ includeEmpty: false }, (row) => {
+      const valA = row.getCell(1).value  ? String(row.getCell(1).value).trim()  : "";
+      const valX = row.getCell(24).value ? String(row.getCell(24).value).trim() : "";
+      if (patternCode433.test(valA)) code433Rows.push(row.number);
+      if (pattern6digit.test(valX) && !valX.startsWith("524")) rowsNon524.push(row.number);
+    });
+    for (let i = 0; i < code433Rows.length; i++) {
+      const Y = code433Rows[i], nextY = code433Rows[i+1] ?? Infinity, col = 65;
+      worksheet.getRow(Y).getCell(col).value = "NON 524 MENJADI";
+      const inRange = rowsNon524.filter(r => r > Y && r < nextY);
+      worksheet.getRow(Y+1).getCell(col).value = { formula: `=${inRange.length > 0 ? inRange.map(r=>`AR${r}`).join("+") : "0"}` };
+    }
+  },
+  async function step52_fillBMCode43(workbook, worksheet) {
+    const patternCode43 = /^\d{4}\.[A-Za-z0-9]{3}$/, patternCode433 = /^\d{4}\.[A-Za-z0-9]{3}\.[A-Za-z0-9]{3}$/;
+    const code43Rows = [], code433Rows = [];
+    worksheet.eachRow({ includeEmpty: false }, (row) => {
+      const val = row.getCell(1).value ? String(row.getCell(1).value).trim() : "";
+      if (patternCode43.test(val)) code43Rows.push(row.number);
+      if (patternCode433.test(val)) code433Rows.push(row.number);
+    });
+    for (let i = 0; i < code43Rows.length; i++) {
+      const Y = code43Rows[i], nextY = code43Rows[i+1] ?? Infinity, col = 65;
+      worksheet.getRow(Y).getCell(col).value = "NON 524 MENJADI";
+      const cells = code433Rows.filter(r => r > Y && r < nextY).map(r => `BM${r+1}`);
+      worksheet.getRow(Y+1).getCell(col).value = { formula: `=${cells.length > 0 ? cells.join("+") : "0"}` };
+    }
+  },
+  async function step53_fillBMCode322(workbook, worksheet) {
+    const patternCode322 = /^\d{3}\.\d{2}\.[A-Za-z0-9]{2}$/, patternCode43 = /^\d{4}\.[A-Za-z0-9]{3}$/;
+    const code322Rows = [], code43Rows = [];
+    worksheet.eachRow({ includeEmpty: false }, (row) => {
+      const val = row.getCell(1).value ? String(row.getCell(1).value).trim() : "";
+      if (patternCode322.test(val)) code322Rows.push(row.number);
+      if (patternCode43.test(val)) code43Rows.push(row.number);
+    });
+    for (let i = 0; i < code322Rows.length; i++) {
+      const Y = code322Rows[i], nextY = code322Rows[i+1] ?? Infinity, col = 65;
+      worksheet.getRow(Y).getCell(col).value = "NON 524 MENJADI";
+      const cells = code43Rows.filter(r => r > Y && r < nextY).map(r => `BM${r+1}`);
+      worksheet.getRow(Y+1).getCell(col).value = { formula: `=${cells.length > 0 ? cells.join("+") : "0"}` };
+    }
+  },
+  async function step54_selisihBN(workbook, worksheet) {
+    const p433=/^\d{4}\.[A-Za-z0-9]{3}\.[A-Za-z0-9]{3}$/, p43=/^\d{4}\.[A-Za-z0-9]{3}$/, p322=/^\d{3}\.\d{2}\.[A-Za-z0-9]{2}$/;
+    const triggerRows = new Set();
+    worksheet.eachRow({ includeEmpty: false }, (row) => {
+      const val = row.getCell(1).value ? String(row.getCell(1).value).trim() : "";
+      if (p433.test(val) || p43.test(val) || p322.test(val)) triggerRows.add(row.number);
+    });
+    for (const Y of triggerRows) {
+      worksheet.getRow(Y).getCell(66).value = "SELISIH";
+      worksheet.getRow(Y+1).getCell(66).value = { formula: `=BM${Y+1}-BL${Y+1}` };
+    }
+  },
+
+  // STEP 55-60: BO, BP, BQ - NON 524 RM SEMULA, MENJADI, SELISIH
+  // col A tidak diawali 524 DAN col W = "RM" → sum U
+  // col X tidak diawali 524 DAN col AT = "RM" → sum AR
+
+  async function step55_fillBOCode433(workbook, worksheet) {
+    const patternCode433=/^\d{4}\.[A-Za-z0-9]{3}\.[A-Za-z0-9]{3}$/, pattern6digit=/^\d{6}$/;
+    const code433Rows=[], rowsNon524RM=[];
+    worksheet.eachRow({ includeEmpty: false }, (row) => {
+      const valA=row.getCell(1).value?String(row.getCell(1).value).trim():"";
+      const valW=row.getCell(23).value?String(row.getCell(23).value).trim():"";
+      if (patternCode433.test(valA)) code433Rows.push(row.number);
+      if (pattern6digit.test(valA) && !valA.startsWith("524") && valW==="RM") rowsNon524RM.push(row.number);
+    });
+    for (let i=0; i<code433Rows.length; i++) {
+      const Y=code433Rows[i], nextY=code433Rows[i+1]??Infinity, col=67;
+      worksheet.getRow(Y).getCell(col).value="NON 524 RM SEMULA";
+      const inRange=rowsNon524RM.filter(r=>r>Y&&r<nextY);
+      worksheet.getRow(Y+1).getCell(col).value={formula:`=${inRange.length>0?inRange.map(r=>`U${r}`).join("+"):"0"}`};
+    }
+  },
+  async function step56_fillBOCode43(workbook, worksheet) {
+    const p43=/^\d{4}\.[A-Za-z0-9]{3}$/, p433=/^\d{4}\.[A-Za-z0-9]{3}\.[A-Za-z0-9]{3}$/;
+    const code43Rows=[], code433Rows=[];
+    worksheet.eachRow({ includeEmpty: false }, (row) => {
+      const val=row.getCell(1).value?String(row.getCell(1).value).trim():"";
+      if (p43.test(val)) code43Rows.push(row.number);
+      if (p433.test(val)) code433Rows.push(row.number);
+    });
+    for (let i=0; i<code43Rows.length; i++) {
+      const Y=code43Rows[i], nextY=code43Rows[i+1]??Infinity, col=67;
+      worksheet.getRow(Y).getCell(col).value="NON 524 RM SEMULA";
+      const cells=code433Rows.filter(r=>r>Y&&r<nextY).map(r=>`BO${r+1}`);
+      worksheet.getRow(Y+1).getCell(col).value={formula:`=${cells.length>0?cells.join("+"):"0"}`};
+    }
+  },
+  async function step57_fillBOCode322(workbook, worksheet) {
+    const p322=/^\d{3}\.\d{2}\.[A-Za-z0-9]{2}$/, p43=/^\d{4}\.[A-Za-z0-9]{3}$/;
+    const code322Rows=[], code43Rows=[];
+    worksheet.eachRow({ includeEmpty: false }, (row) => {
+      const val=row.getCell(1).value?String(row.getCell(1).value).trim():"";
+      if (p322.test(val)) code322Rows.push(row.number);
+      if (p43.test(val)) code43Rows.push(row.number);
+    });
+    for (let i=0; i<code322Rows.length; i++) {
+      const Y=code322Rows[i], nextY=code322Rows[i+1]??Infinity, col=67;
+      worksheet.getRow(Y).getCell(col).value="NON 524 RM SEMULA";
+      const cells=code43Rows.filter(r=>r>Y&&r<nextY).map(r=>`BO${r+1}`);
+      worksheet.getRow(Y+1).getCell(col).value={formula:`=${cells.length>0?cells.join("+"):"0"}`};
+    }
+  },
+  async function step58_fillBPCode433(workbook, worksheet) {
+    const p433=/^\d{4}\.[A-Za-z0-9]{3}\.[A-Za-z0-9]{3}$/, pattern6digit=/^\d{6}$/;
+    const code433Rows=[], rowsNon524RM=[];
+    worksheet.eachRow({ includeEmpty: false }, (row) => {
+      const valA=row.getCell(1).value?String(row.getCell(1).value).trim():"";
+      const valX=row.getCell(24).value?String(row.getCell(24).value).trim():"";
+      const valAT=row.getCell(46).value?String(row.getCell(46).value).trim():"";
+      if (p433.test(valA)) code433Rows.push(row.number);
+      if (pattern6digit.test(valX) && !valX.startsWith("524") && valAT==="RM") rowsNon524RM.push(row.number);
+    });
+    for (let i=0; i<code433Rows.length; i++) {
+      const Y=code433Rows[i], nextY=code433Rows[i+1]??Infinity, col=68;
+      worksheet.getRow(Y).getCell(col).value="NON 524 RM MENJADI";
+      const inRange=rowsNon524RM.filter(r=>r>Y&&r<nextY);
+      worksheet.getRow(Y+1).getCell(col).value={formula:`=${inRange.length>0?inRange.map(r=>`AR${r}`).join("+"):"0"}`};
+    }
+  },
+  async function step59_fillBPCode43(workbook, worksheet) {
+    const p43=/^\d{4}\.[A-Za-z0-9]{3}$/, p433=/^\d{4}\.[A-Za-z0-9]{3}\.[A-Za-z0-9]{3}$/;
+    const code43Rows=[], code433Rows=[];
+    worksheet.eachRow({ includeEmpty: false }, (row) => {
+      const val=row.getCell(1).value?String(row.getCell(1).value).trim():"";
+      if (p43.test(val)) code43Rows.push(row.number);
+      if (p433.test(val)) code433Rows.push(row.number);
+    });
+    for (let i=0; i<code43Rows.length; i++) {
+      const Y=code43Rows[i], nextY=code43Rows[i+1]??Infinity, col=68;
+      worksheet.getRow(Y).getCell(col).value="NON 524 RM MENJADI";
+      const cells=code433Rows.filter(r=>r>Y&&r<nextY).map(r=>`BP${r+1}`);
+      worksheet.getRow(Y+1).getCell(col).value={formula:`=${cells.length>0?cells.join("+"):"0"}`};
+    }
+  },
+  async function step60_fillBPCode322(workbook, worksheet) {
+    const p322=/^\d{3}\.\d{2}\.[A-Za-z0-9]{2}$/, p43=/^\d{4}\.[A-Za-z0-9]{3}$/;
+    const code322Rows=[], code43Rows=[];
+    worksheet.eachRow({ includeEmpty: false }, (row) => {
+      const val=row.getCell(1).value?String(row.getCell(1).value).trim():"";
+      if (p322.test(val)) code322Rows.push(row.number);
+      if (p43.test(val)) code43Rows.push(row.number);
+    });
+    for (let i=0; i<code322Rows.length; i++) {
+      const Y=code322Rows[i], nextY=code322Rows[i+1]??Infinity, col=68;
+      worksheet.getRow(Y).getCell(col).value="NON 524 RM MENJADI";
+      const cells=code43Rows.filter(r=>r>Y&&r<nextY).map(r=>`BP${r+1}`);
+      worksheet.getRow(Y+1).getCell(col).value={formula:`=${cells.length>0?cells.join("+"):"0"}`};
+    }
+  },
+  async function step61_selisihBQ(workbook, worksheet) {
+    const p433=/^\d{4}\.[A-Za-z0-9]{3}\.[A-Za-z0-9]{3}$/, p43=/^\d{4}\.[A-Za-z0-9]{3}$/, p322=/^\d{3}\.\d{2}\.[A-Za-z0-9]{2}$/;
+    const triggerRows=new Set();
+    worksheet.eachRow({ includeEmpty: false }, (row) => {
+      const val=row.getCell(1).value?String(row.getCell(1).value).trim():"";
+      if (p433.test(val)||p43.test(val)||p322.test(val)) triggerRows.add(row.number);
+    });
+    for (const Y of triggerRows) {
+      worksheet.getRow(Y).getCell(69).value="SELISIH";
+      worksheet.getRow(Y+1).getCell(69).value={formula:`=BP${Y+1}-BO${Y+1}`};
+    }
+  },
+
+  // STEP 62-67: BR, BS, BT - NON 524 PNBP SEMULA, MENJADI, SELISIH
+  // col A tidak diawali 524 DAN col W = "PNP" → sum U
+  // col X tidak diawali 524 DAN col AT = "PNP" → sum AR
+
+  async function step62_fillBRCode433(workbook, worksheet) {
+    const p433=/^\d{4}\.[A-Za-z0-9]{3}\.[A-Za-z0-9]{3}$/, pattern6digit=/^\d{6}$/;
+    const code433Rows=[], rowsNon524PNP=[];
+    worksheet.eachRow({ includeEmpty: false }, (row) => {
+      const valA=row.getCell(1).value?String(row.getCell(1).value).trim():"";
+      const valW=row.getCell(23).value?String(row.getCell(23).value).trim():"";
+      if (p433.test(valA)) code433Rows.push(row.number);
+      if (pattern6digit.test(valA) && !valA.startsWith("524") && valW==="PNP") rowsNon524PNP.push(row.number);
+    });
+    for (let i=0; i<code433Rows.length; i++) {
+      const Y=code433Rows[i], nextY=code433Rows[i+1]??Infinity, col=70;
+      worksheet.getRow(Y).getCell(col).value="NON 524 PNBP SEMULA";
+      const inRange=rowsNon524PNP.filter(r=>r>Y&&r<nextY);
+      worksheet.getRow(Y+1).getCell(col).value={formula:`=${inRange.length>0?inRange.map(r=>`U${r}`).join("+"):"0"}`};
+    }
+  },
+  async function step63_fillBRCode43(workbook, worksheet) {
+    const p43=/^\d{4}\.[A-Za-z0-9]{3}$/, p433=/^\d{4}\.[A-Za-z0-9]{3}\.[A-Za-z0-9]{3}$/;
+    const code43Rows=[], code433Rows=[];
+    worksheet.eachRow({ includeEmpty: false }, (row) => {
+      const val=row.getCell(1).value?String(row.getCell(1).value).trim():"";
+      if (p43.test(val)) code43Rows.push(row.number);
+      if (p433.test(val)) code433Rows.push(row.number);
+    });
+    for (let i=0; i<code43Rows.length; i++) {
+      const Y=code43Rows[i], nextY=code43Rows[i+1]??Infinity, col=70;
+      worksheet.getRow(Y).getCell(col).value="NON 524 PNBP SEMULA";
+      const cells=code433Rows.filter(r=>r>Y&&r<nextY).map(r=>`BR${r+1}`);
+      worksheet.getRow(Y+1).getCell(col).value={formula:`=${cells.length>0?cells.join("+"):"0"}`};
+    }
+  },
+  async function step64_fillBRCode322(workbook, worksheet) {
+    const p322=/^\d{3}\.\d{2}\.[A-Za-z0-9]{2}$/, p43=/^\d{4}\.[A-Za-z0-9]{3}$/;
+    const code322Rows=[], code43Rows=[];
+    worksheet.eachRow({ includeEmpty: false }, (row) => {
+      const val=row.getCell(1).value?String(row.getCell(1).value).trim():"";
+      if (p322.test(val)) code322Rows.push(row.number);
+      if (p43.test(val)) code43Rows.push(row.number);
+    });
+    for (let i=0; i<code322Rows.length; i++) {
+      const Y=code322Rows[i], nextY=code322Rows[i+1]??Infinity, col=70;
+      worksheet.getRow(Y).getCell(col).value="NON 524 PNBP SEMULA";
+      const cells=code43Rows.filter(r=>r>Y&&r<nextY).map(r=>`BR${r+1}`);
+      worksheet.getRow(Y+1).getCell(col).value={formula:`=${cells.length>0?cells.join("+"):"0"}`};
+    }
+  },
+  async function step65_fillBSCode433(workbook, worksheet) {
+    const p433=/^\d{4}\.[A-Za-z0-9]{3}\.[A-Za-z0-9]{3}$/, pattern6digit=/^\d{6}$/;
+    const code433Rows=[], rowsNon524PNP=[];
+    worksheet.eachRow({ includeEmpty: false }, (row) => {
+      const valA=row.getCell(1).value?String(row.getCell(1).value).trim():"";
+      const valX=row.getCell(24).value?String(row.getCell(24).value).trim():"";
+      const valAT=row.getCell(46).value?String(row.getCell(46).value).trim():"";
+      if (p433.test(valA)) code433Rows.push(row.number);
+      if (pattern6digit.test(valX) && !valX.startsWith("524") && valAT==="PNP") rowsNon524PNP.push(row.number);
+    });
+    for (let i=0; i<code433Rows.length; i++) {
+      const Y=code433Rows[i], nextY=code433Rows[i+1]??Infinity, col=71;
+      worksheet.getRow(Y).getCell(col).value="NON 524 PNBP MENJADI";
+      const inRange=rowsNon524PNP.filter(r=>r>Y&&r<nextY);
+      worksheet.getRow(Y+1).getCell(col).value={formula:`=${inRange.length>0?inRange.map(r=>`AR${r}`).join("+"):"0"}`};
+    }
+  },
+  async function step66_fillBSCode43(workbook, worksheet) {
+    const p43=/^\d{4}\.[A-Za-z0-9]{3}$/, p433=/^\d{4}\.[A-Za-z0-9]{3}\.[A-Za-z0-9]{3}$/;
+    const code43Rows=[], code433Rows=[];
+    worksheet.eachRow({ includeEmpty: false }, (row) => {
+      const val=row.getCell(1).value?String(row.getCell(1).value).trim():"";
+      if (p43.test(val)) code43Rows.push(row.number);
+      if (p433.test(val)) code433Rows.push(row.number);
+    });
+    for (let i=0; i<code43Rows.length; i++) {
+      const Y=code43Rows[i], nextY=code43Rows[i+1]??Infinity, col=71;
+      worksheet.getRow(Y).getCell(col).value="NON 524 PNBP MENJADI";
+      const cells=code433Rows.filter(r=>r>Y&&r<nextY).map(r=>`BS${r+1}`);
+      worksheet.getRow(Y+1).getCell(col).value={formula:`=${cells.length>0?cells.join("+"):"0"}`};
+    }
+  },
+  async function step67_fillBSCode322(workbook, worksheet) {
+    const p322=/^\d{3}\.\d{2}\.[A-Za-z0-9]{2}$/, p43=/^\d{4}\.[A-Za-z0-9]{3}$/;
+    const code322Rows=[], code43Rows=[];
+    worksheet.eachRow({ includeEmpty: false }, (row) => {
+      const val=row.getCell(1).value?String(row.getCell(1).value).trim():"";
+      if (p322.test(val)) code322Rows.push(row.number);
+      if (p43.test(val)) code43Rows.push(row.number);
+    });
+    for (let i=0; i<code322Rows.length; i++) {
+      const Y=code322Rows[i], nextY=code322Rows[i+1]??Infinity, col=71;
+      worksheet.getRow(Y).getCell(col).value="NON 524 PNBP MENJADI";
+      const cells=code43Rows.filter(r=>r>Y&&r<nextY).map(r=>`BS${r+1}`);
+      worksheet.getRow(Y+1).getCell(col).value={formula:`=${cells.length>0?cells.join("+"):"0"}`};
+    }
+  },
+  async function step68_selisihBT(workbook, worksheet) {
+    const p433=/^\d{4}\.[A-Za-z0-9]{3}\.[A-Za-z0-9]{3}$/, p43=/^\d{4}\.[A-Za-z0-9]{3}$/, p322=/^\d{3}\.\d{2}\.[A-Za-z0-9]{2}$/;
+    const triggerRows=new Set();
+    worksheet.eachRow({ includeEmpty: false }, (row) => {
+      const val=row.getCell(1).value?String(row.getCell(1).value).trim():"";
+      if (p433.test(val)||p43.test(val)||p322.test(val)) triggerRows.add(row.number);
+    });
+    for (const Y of triggerRows) {
+      worksheet.getRow(Y).getCell(72).value="SELISIH";
+      worksheet.getRow(Y+1).getCell(72).value={formula:`=BS${Y+1}-BR${Y+1}`};
     }
   },
 ];
