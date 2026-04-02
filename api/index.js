@@ -1841,6 +1841,60 @@ const STEPS = [
       worksheet.getRow(Y+1).getCell(72).value={formula:`=BS${Y+1}-BR${Y+1}`};
     }
   },
+
+  // ----------------------------------------------------------
+  // STEP 69: Match Laporan FA → tulis Sisa Anggaran ke kolom AV
+  //          Hanya berjalan jika faWorkbook tersedia di workbook._faData
+  //          Matching: col Y (index 24) = "-" DAN col Z (index 25) = uraian FA
+  //          Berurutan (order of appearance)
+  // ----------------------------------------------------------
+  async function step69_matchLaporanFA(workbook, worksheet) {
+    const faData = workbook._faData;
+    if (!faData || faData.length === 0) {
+      console.log("[Step 69] Laporan FA tidak dikirim, step dilewati.");
+      return;
+    }
+
+    console.log(`[Step 69] FA items: ${faData.length}`);
+
+    // Build ordered list by name from FA
+    const faByName = {};
+    for (const { uraian, sisa } of faData) {
+      if (!faByName[uraian]) faByName[uraian] = [];
+      faByName[uraian].push(sisa);
+    }
+    const usedCount = {};
+
+    const colAV = 48; // AV = col 48
+    let matched = 0;
+
+    function getCellStr(cell) {
+      const val = cell.value;
+      if (val === null || val === undefined) return "";
+      if (typeof val === "string") return val.trim();
+      if (typeof val === "number") return String(val);
+      if (val.richText) return val.richText.map(r => r.text || "").join("").trim();
+      if (val.result !== undefined) return String(val.result).trim();
+      if (val.text) return String(val.text).trim();
+      return String(val).trim();
+    }
+
+    worksheet.eachRow({ includeEmpty: false }, (row) => {
+      const valY = getCellStr(row.getCell(25)); // col Y = index 25 (1-based)
+      const valZ = getCellStr(row.getCell(26)); // col Z = index 26 (1-based)
+
+      if (valY === "-" && valZ && faByName[valZ]) {
+        const idx = usedCount[valZ] || 0;
+        if (idx < faByName[valZ].length) {
+          row.getCell(colAV).value = faByName[valZ][idx];
+          usedCount[valZ] = idx + 1;
+          matched++;
+        }
+      }
+    });
+
+    console.log(`[Step 69] Matched: ${matched}`);
+  },
 ];
 
 // ============================================================
@@ -1861,59 +1915,20 @@ async function runPipeline(workbook) {
 }
 
 // ============================================================
-// HELPER: parse multipart/form-data secara manual (tanpa multer,
-// agar kompatibel dengan Vercel serverless)
+// HELPER: parse multipart/form-data menggunakan multer
 // ============================================================
-function parseMultipart(req) {
+const multer = require("multer");
+const _multerUpload = multer({ storage: multer.memoryStorage() });
+
+function parseMultipartWithMulter(req, res) {
   return new Promise((resolve, reject) => {
-    const chunks = [];
-    req.on("data", (chunk) => chunks.push(chunk));
-    req.on("end", () => {
-      const body = Buffer.concat(chunks);
-      const contentType = req.headers["content-type"] || "";
-      const boundaryMatch = contentType.match(/boundary=(.+)$/);
-
-      if (!boundaryMatch) return reject(new Error("No multipart boundary found"));
-
-      const boundary = Buffer.from("--" + boundaryMatch[1]);
-      const parts = [];
-      let start = 0;
-
-      while (start < body.length) {
-        const boundaryIdx = body.indexOf(boundary, start);
-        if (boundaryIdx === -1) break;
-
-        const partStart = boundaryIdx + boundary.length + 2; // skip \r\n
-        const nextBoundary = body.indexOf(boundary, partStart);
-        if (nextBoundary === -1) break;
-
-        const partEnd = nextBoundary - 2; // trim \r\n before next boundary
-        const part = body.slice(partStart, partEnd);
-
-        // Pisahkan header dan data
-        const headerEnd = part.indexOf(Buffer.from("\r\n\r\n"));
-        if (headerEnd === -1) { start = nextBoundary; continue; }
-
-        const headerStr = part.slice(0, headerEnd).toString();
-        const data = part.slice(headerEnd + 4);
-
-        const nameMatch = headerStr.match(/name="([^"]+)"/);
-        const filenameMatch = headerStr.match(/filename="([^"]+)"/);
-
-        if (nameMatch) {
-          parts.push({
-            name: nameMatch[1],
-            filename: filenameMatch ? filenameMatch[1] : null,
-            data,
-          });
-        }
-
-        start = nextBoundary;
-      }
-
-      resolve(parts);
+    _multerUpload.fields([
+      { name: "file", maxCount: 1 },
+      { name: "fa_file", maxCount: 1 },
+    ])(req, res, (err) => {
+      if (err) return reject(err);
+      resolve(req.files || {});
     });
-    req.on("error", reject);
   });
 }
 
@@ -1930,6 +1945,56 @@ function parseJson(req) {
     });
     req.on("error", reject);
   });
+}
+
+// ============================================================
+// HELPER: parse Laporan FA → extract uraian & sisa anggaran
+// ============================================================
+async function parseLaporanFA(buffer) {
+  const faWorkbook = new ExcelJS.Workbook();
+  const stream = Readable.from(buffer);
+  await faWorkbook.xlsx.read(stream);
+
+  const ws = faWorkbook.worksheets[0];
+  const items = []; // { uraian, sisa }
+
+  // Helper: extract plain text dari cell value (handle rich text, formula, plain)
+  function getCellText(cell) {
+    const val = cell.value;
+    if (val === null || val === undefined) return "";
+    if (typeof val === "string") return val.trim();
+    if (typeof val === "number") return String(val);
+    // Rich text object: { richText: [{text: "..."}] }
+    if (val.richText) return val.richText.map(r => r.text || "").join("").trim();
+    // Formula result
+    if (val.result !== undefined) return String(val.result).trim();
+    // Shared string or other object with text
+    if (val.text) return String(val.text).trim();
+    return String(val).trim();
+  }
+
+  ws.eachRow({ includeEmpty: false }, (row) => {
+    const sisa = row.getCell(31).value;
+    if (sisa === null || sisa === undefined) return;
+    const sisaNum = typeof sisa === "number" ? sisa :
+      parseFloat(String(typeof sisa === "object" && sisa.result !== undefined ? sisa.result : sisa).replace(/[^0-9.-]/g, ""));
+    if (isNaN(sisaNum)) return;
+
+    // Cari uraian dengan prefix 6 digit seperti "000002. Konsumsi Rapat"
+    // Scan semua kolom 1-32 karena posisi bervariasi
+    for (let c = 1; c <= 32; c++) {
+      const str = getCellText(row.getCell(c));
+      if (/^\d{6}\.\s/.test(str)) {
+        const clean = str.replace(/^\d{6}\.\s*/, "").trim();
+        if (clean) {
+          items.push({ uraian: clean, sisa: sisaNum });
+        }
+        break;
+      }
+    }
+  });
+
+  return items;
 }
 
 // ============================================================
@@ -1972,15 +2037,23 @@ module.exports = async function handler(req, res) {
     // INPUT MODE A: multipart/form-data (field name = "file")
     // ----------------------------------------------------------
     if (contentType.includes("multipart/form-data")) {
-      const parts = await parseMultipart(req);
-      const filePart = parts.find((p) => p.name === "file" && p.filename);
+      const files = await parseMultipartWithMulter(req, res);
 
-      if (!filePart) {
+      if (!files["file"] || !files["file"][0]) {
         return res.status(400).json({ error: "Field 'file' tidak ditemukan dalam form-data" });
       }
 
-      const stream = Readable.from(filePart.data);
+      const fileBuffer = files["file"][0].buffer;
+      const stream = Readable.from(fileBuffer);
       await workbook.xlsx.read(stream);
+
+      // Parse Laporan FA jika dikirim (opsional)
+      if (files["fa_file"] && files["fa_file"][0]) {
+        workbook._faData = await parseLaporanFA(files["fa_file"][0].buffer);
+        console.log(`[Handler] Laporan FA diterima, ${workbook._faData.length} items`);
+      } else {
+        console.log("[Handler] Laporan FA tidak dikirim.");
+      }
     }
 
     // ----------------------------------------------------------
